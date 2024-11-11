@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Task
-from .serializers import TaskSerializer, LoginSerializer
+from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer
 from django.contrib.auth import login, logout
 
 
@@ -27,3 +27,19 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return Response({'message': 'Logout successful'}, status=200)
+
+
+@api_view(['POST'])
+def register_user(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        return Response(
+            {'message': 'Registration successful', 'user': {'email': user.email}},
+            status=201
+        )
+    else:
+        return Response(
+            {'message': 'Registration failed', 'errors': serializer.errors},
+            status=400
+        )
