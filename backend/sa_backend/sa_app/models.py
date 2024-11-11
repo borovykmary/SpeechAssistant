@@ -55,8 +55,6 @@ class Task(models.Model):
     audio_sample = models.BinaryField(blank=True, null=True)  # Store binary data for audio files (e.g., WAV or MP3)
     text_sample = models.TextField(blank=True, null=True)
     emotion = models.CharField(max_length=50, blank=True, null=True)
-    meditation = models.ForeignKey(Meditation, on_delete=models.SET_NULL, null=True, related_name='tasks')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
 
     def __str__(self):
         return f"Task for {self.user.email} with emotion {self.emotion}"
