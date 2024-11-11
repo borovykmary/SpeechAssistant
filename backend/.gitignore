@@ -1,2 +1,4 @@
 .idea
 .DS_Store
+.lab4
+sa_backend/sa_backend/__pycache__
