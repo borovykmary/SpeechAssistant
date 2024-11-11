@@ -1,5 +1,15 @@
-/* Navigation.css */
-
+.app-container {
+  width: 390px;
+  height: 844px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Optional, set background color */
+  margin: 0 auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow to simulate mobile view */
+  overflow: hidden;
+  position: relative;
+}
 .navigation-container {
   width: 100%;
   max-width: 390px;
@@ -10,6 +20,7 @@
   flex-direction: column;
   gap: 20px;
   position: relative;
+  overflow: hidden;
 }
 
 .navigation-header {
@@ -27,6 +38,10 @@
 .logo-icon {
   width: 50px;
   height: 50px;
+}
+.hamburger-icon {
+  cursor: pointer;
+  width: 24px;
 }
 
 .cards-container {
@@ -78,4 +93,95 @@
 .card {
   position: relative;
   z-index: 2;
+}
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  cursor: pointer;
+}
+.slide-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Above the overlay */
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.slide-menu.open {
+  transform: translateX(0);
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-logo {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  text-align: left;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #666;
+  margin: 20px 0;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #9a98d3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #7f7db8;
 }
