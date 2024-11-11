@@ -1,0 +1,81 @@
+/* Navigation.css */
+
+.navigation-container {
+  width: 100%;
+  max-width: 390px;
+  height: 844px;
+  background-color: #4b2c7d;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.navigation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hamburger-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  gap: 10px;
+  top: 125px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  width: 90%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+.card-statistics {
+  margin-bottom: 6px;
+  flex: 0 1 6%;
+}
+
+.card-events {
+  margin-bottom: 16px;
+  flex: 0 1 11%;
+}
+.card-meditations {
+  margin-bottom: 18px;
+  flex: 0 1 18%;
+}
+.card-tasks {
+  flex: 0 1 65%;
+}
+
+.background-image-container {
+  position: absolute;
+  top: 115px;
+  align-self: center;
+  width: 90%;
+  height: auto;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.background-image {
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+}
