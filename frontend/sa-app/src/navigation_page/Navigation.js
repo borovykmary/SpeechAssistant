@@ -4,6 +4,7 @@ import Card from "./components/Card";
 import hamburgerIcon from "./assets/bars-3.svg";
 import logoIcon from "./assets/logo.svg";
 import cardsBg from "./assets/cardsBg.svg";
+import arrowIcon from "./assets/arrow-right-circle.svg";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,22 +31,25 @@ const Navigation = () => {
           <Card
             className="card-statistics"
             title="Statistics"
-            description="View your stats"
+            icon={arrowIcon}
           />
           <Card
             className="card-events"
             title="Events"
-            description="description description..."
+            description="description description description..."
+            icon={arrowIcon}
           />
           <Card
             className="card-meditations"
             title="Meditations"
             description="description description description..."
+            icon={arrowIcon}
           />
           <Card
             className="card-tasks"
             title="Tasks"
             description="description description description..."
+            icon={arrowIcon}
           />
         </div>
         {menuOpen && <div className="menu-overlay" onClick={toggleMenu} />}
