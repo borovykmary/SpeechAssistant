@@ -1,0 +1,64 @@
+
+.landing-page {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f7f7f7;
+}
+
+.header {
+    padding: 20px;
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #444;
+}
+
+.app-name {
+    font-size: 32px;
+    font-weight: bold;
+    color: #7d6abf;
+    margin: 10px 0;
+}
+
+.description {
+    font-size: 18px;
+    color: #666;
+    margin: 20px auto;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.get-started {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #7d6abf;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.get-started:hover {
+    background-color: #6a58a3;
+}
+
+.illustration-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.illustration {
+    width: 90%;
+    max-width: 600px;
+    height: auto;
+}
