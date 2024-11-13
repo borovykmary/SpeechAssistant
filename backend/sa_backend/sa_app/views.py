@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Task
@@ -43,3 +44,12 @@ def register_user(request):
             {'message': 'Registration failed', 'errors': serializer.errors},
             status=400
         )
+
+
+@api_view(['GET'])
+def landing_page(request):
+    login_url = request.build_absolute_uri(reverse('login_user'))
+    return Response({
+        'message': 'Redirection succeeded',
+        'login_url': login_url,
+    }, status=200)
