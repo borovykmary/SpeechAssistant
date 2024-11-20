@@ -5,13 +5,16 @@ import logoIcon from "../navigation_page/assets/logo.svg";
 
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
-  const [progress, setProgress] = useState(33);
+  const [progress, setProgress] = useState(33); // Progress is 33% by default
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/api/tasks/");
         setTasks(response.data);
+        // Optionally calculate progress based on tasks
+        const progressPercentage = (response.data.length / 4) * 100; // Assuming 4 tasks is 100%
+        setProgress(Math.min(progressPercentage, 100));
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
@@ -29,8 +32,27 @@ const TasksPage = () => {
           Let's start training your ability to <strong>express emotions!</strong>
         </h1>
         <p>Choose the task first.</p>
+
+        {/* Progress Bar */}
         <div className="progress-container">
-          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+          <span className="progress-text">Your progress {progress}%</span>
+          <div className="progress-bar-track">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${progress}%` }}
+            ></div>
+            {[0, 33, 66, 100].map((dotProgress, index) => (
+              <div
+                key={index}
+                className="progress-bar-dot"
+                style={{
+                  left: `${dotProgress}%`,
+                  transform: `translateX(-50%)`,
+                  position: "absolute",
+                }}
+              ></div>
+            ))}
+          </div>
         </div>
       </header>
 
