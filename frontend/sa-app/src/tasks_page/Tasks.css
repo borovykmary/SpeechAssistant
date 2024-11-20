@@ -1,0 +1,87 @@
+/* General App Styling */
+.app-container {
+  width: 390px;
+  height: 844px;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin: 0 auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", sans-serif;
+  color: #2e2e7f;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 16px;
+}
+
+/* Task List */
+.task-list {
+  margin-top: 16px;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: calc(844px - 200px); /* Adjusts height to fit within the container minus the header height */
+}
+
+/* Task Card */
+.task-card {
+  border: 2px solid #2e2e7f;
+  border-radius: 30px; /* Rounded corners */
+  padding: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+  height: 124px; /* Fixed height */
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to the top */
+}
+
+/* Task Header */
+.task-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align index and emotion text to the left */
+}
+
+/* Task Index */
+.task-number {
+  font-size: 24px; /* Larger font size for the index */
+  font-weight: 600; /* Semi-bold */
+  font-family: "Inter", sans-serif;
+  color: #2e2e7f;
+  margin-bottom: 4px; /* Space between index and emotion text */
+}
+
+/* Task Title */
+.task-title {
+  font-size: 24px;
+  margin-left: 43px;
+  font-weight: 600; /* Regular weight */
+  color: #2e2e7f;
+}
+
+/* Task Title */
+.task-description {
+  font-size: 16px;
+  margin-left: 43px;
+  font-weight: 400; /* Regular weight */
+  color: #2e2e7f;
+}
+
+/* Arrow Icon */
+.arrow-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px; /* Set fixed size */
+  bottom: 16px;
+  right: 16px;
+  font-size: 30px;
+  color: #2e2e7f;
+}
