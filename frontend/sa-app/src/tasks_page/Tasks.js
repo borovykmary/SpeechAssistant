@@ -41,7 +41,7 @@ const TasksPage = () => {
               className="progress-bar-fill"
               style={{ width: `${progress}%` }}
             ></div>
-            {[0, 33, 66, 100].map((dotProgress, index) => (
+            {[5, 33, 66, 95].map((dotProgress, index) => (
               <div
                 key={index}
                 className="progress-bar-dot"
