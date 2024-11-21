@@ -1,0 +1,139 @@
+/* General App Styling */
+.app-container {
+  width: 390px;
+  height: 844px;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin: 0 auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  color: #2e2e7f;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 16px;
+}
+
+/* Task List */
+.task-list {
+  margin-top: 16px;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: calc(844px - 200px); /* Adjusts height to fit within the container minus the header height */
+}
+
+/* Task Card */
+.task-card {
+  border: 2px solid #2e2e7f;
+  border-radius: 30px; /* Rounded corners */
+  padding: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+  height: 124px; /* Fixed height */
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to the top */
+}
+
+/* Task Header */
+.task-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align index and emotion text to the left */
+}
+
+/* Task Index */
+.task-number {
+  font-size: 24px; /* Larger font size for the index */
+  font-weight: 600; /* Semi-bold */
+  font-family: "Inter", sans-serif;
+  color: #2e2e7f;
+  margin-bottom: 4px; /* Space between index and emotion text */
+}
+
+/* Task Title */
+.task-title {
+  font-size: 24px;
+  margin-left: 43px;
+  font-weight: 600; /* Regular weight */
+  color: #2e2e7f;
+}
+
+/* Task Title */
+.task-description {
+  font-size: 16px;
+  margin-left: 43px;
+  font-weight: 400; /* Regular weight */
+  color: #2e2e7f;
+}
+
+/* Arrow Icon */
+.arrow-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px; /* Set fixed size */
+  bottom: 16px;
+  right: 16px;
+  font-size: 30px;
+  color: #2e2e7f;
+}
+
+/* Progress Bar Container */
+.progress-container {
+  display: flex;
+  flex-direction: column; /* Stack text above the progress bar */
+  align-items: flex-start; /* Align items to the left */
+  margin-top: 16px;
+  position: relative;
+  width: 100%; /* Ensures progress bar spans the full width */
+}
+
+/* Progress Text */
+.progress-text {
+  font-family: "Inter", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  color: #8d8d8d;
+  margin-bottom: 4px; /* Add space between text and the progress bar */
+}
+
+/* Progress Bar Track */
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0; /* Light gray for track */
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Progress Fill */
+.progress-bar-fill {
+  position: absolute;
+  height: 100%;
+  background-color: #2e2e7f; /* Dark blue */
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Dots on the Progress Bar */
+.progress-bar-dot {
+  width: 4px;
+  height: 4px;
+  background-color: white;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1; /* Ensures dots stay above the fill */
+}
