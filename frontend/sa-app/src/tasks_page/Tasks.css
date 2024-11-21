@@ -90,18 +90,20 @@
 /* Progress Bar Container */
 .progress-container {
   display: flex;
-  align-items: center;
+  flex-direction: column; /* Stack text above the progress bar */
+  align-items: flex-start; /* Align items to the left */
   margin-top: 16px;
   position: relative;
+  width: 100%; /* Ensures progress bar spans the full width */
 }
 
 /* Progress Text */
 .progress-text {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  font-size: 8px;
   font-weight: 600;
-  color: #2e2e7f;
-  margin-right: 8px;
+  color: #8d8d8d;
+  margin-bottom: 4px; /* Add space between text and the progress bar */
 }
 
 /* Progress Bar Track */
@@ -131,7 +133,6 @@
   width: 4px;
   height: 4px;
   background-color: white;
-  border: 2px solid #2e2e7f;
   border-radius: 50%;
   position: relative;
   z-index: 1; /* Ensures dots stay above the fill */
