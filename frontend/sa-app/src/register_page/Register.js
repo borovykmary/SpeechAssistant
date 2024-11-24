@@ -1,42 +1,42 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "./Login.css";
+import "./Register.css";
 import logo from "../navigation_page/assets/logo.svg";
 
-// Defining the validation schema using Yup
-const LoginSchema = Yup.object().shape({
+// Define the validation schema using Yup
+const RegisterSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Username is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters") // Update min password length according to our reqs
     .required("Password is required"),
+  repeatPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
-const Login = () => {
+const Register = () => {
   const handleSubmit = (values) => {
     // Placeholder function for form submission
     console.log("Form submitted with:", values);
-    alert("Login functionality not implemented yet.");
+    alert("Register functionality not implemented yet.");
   };
 
-  console.log("React:", React);
-  console.log("Formik:", Formik);
-
   return (
-    <div className="login-container">
-      <div className="login-card">
+    <div className="register-container">
+      <div className="register-card">
         <img src={logo} alt="Speech Assistant Logo" className="logo" />
         <h2>Welcome to Speech Assistant!</h2>
 
         <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={LoginSchema}
+          initialValues={{ email: "", password: "", repeatPassword: "" }}
+          validationSchema={RegisterSchema}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
-            <Form className="login-form">
+            <Form className="register-form">
               <div className="form-field">
                 <label htmlFor="email">Email</label>
                 <Field
@@ -61,27 +61,36 @@ const Login = () => {
                 />
               </div>
 
+              <div className="form-field">
+                <label htmlFor="repeatPassword">Confirm Password</label>
+                <Field
+                  type="password"
+                  name="repeatPassword"
+                  placeholder="Re-enter your password"
+                />
+                <ErrorMessage
+                  name="repeatPassword"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
               <button
                 type="submit"
-                className="login-button"
+                className="register-button"
                 disabled={isSubmitting}
               >
-                Log In
+                Register
               </button>
             </Form>
           )}
         </Formik>
 
-        <div className="login-footer">
-          <a href="/forgot-password" className="forgot-password">
-            {/* Placeholder for future 'Forgot password' link*/}
-            Forgot password?
-          </a>
+        <div className="register-footer">
           <p>
-            Don't have an account?{" "}
-            <a href="/register" className="sign-up">
-              {/* Placeholder for 'Sign Up' link*/}
-              Register
+            Already have an account?{" "}
+            <a href="/login" className="log-in">
+              Log In
             </a>
           </p>
         </div>
@@ -90,4 +99,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
