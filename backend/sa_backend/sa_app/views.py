@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .models import Task
-from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer
+from rest_framework.decorators import api_view, parser_classes, permission_classes
+from .models import Task, User, Result
+from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, ResultSerializer
 from django.contrib.auth import login, logout
 
 
@@ -53,3 +54,29 @@ def landing_page(request):
         'message': 'Redirection succeeded',
         'login_url': login_url,
     }, status=200)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def upload_audio(request):
+    task_id = request.data.get('task_id')
+    audio_file = request.FILES.get('audio_file')
+
+    if not task_id or not audio_file:
+        return Response({'error': 'Task ID and audio file are required'}, status=400)
+
+    try:
+        task = Task.objects.get(id=task_id)
+    except Task.DoesNotExist:
+        return Response({'error': 'Task not found'}, status=404)
+
+    result = Result.objects.create(
+        recoded_audio=audio_file.read(),
+        voice_statistics={"placeholder": "data"},  # Placeholder for voice statistics
+        ai_response_text="Placeholder AI response",  # Placeholder for AI response text
+        user_id=1,
+        task=task
+    )
+
+    serializer = ResultSerializer(result)
+    return Response(serializer.data, status=201)
