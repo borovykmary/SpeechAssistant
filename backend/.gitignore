@@ -1,4 +1,5 @@
 .idea
 .DS_Store
 sa_venv/
-sa_backend/sa_backend/__pycache__/
+backend/sa_backend/sa_backend/__pycache__/
+backend/sa_backend/sa_app/__pycache__/

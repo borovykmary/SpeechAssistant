@@ -61,6 +61,7 @@ class Task(models.Model):
 
 # Results Table
 class Result(models.Model):
+    recoded_audio = models.BinaryField(blank=True, null=True)
     voice_statistics = models.JSONField(blank=True, null=True)  # JSON field for storing complex statistics
     ai_response_text = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='results')
