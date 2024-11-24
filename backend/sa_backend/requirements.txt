@@ -1,0 +1,11 @@
+transformers
+datasets
+huggingface-hub
+joblib
+librosa
+resampy
+tensorflow
+scikit-learn-intelex
+keras
+xgboost
+torch
