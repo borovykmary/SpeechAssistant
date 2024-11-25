@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import "./Login.css";
 import logo from "../navigation_page/assets/logo.svg";
 
@@ -15,14 +16,32 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const handleSubmit = (values) => {
-    // Placeholder function for form submission
-    console.log("Form submitted with:", values);
-    alert("Login functionality not implemented yet.");
-  };
 
-  console.log("React:", React);
-  console.log("Formik:", Formik);
+    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+      try {
+        const response = await axios.post("http://127.0.0.1:8000/login/", {
+          email: values.email,
+          password: values.password,
+        });
+  
+        // Handle success (e.g., store token)
+        alert("Login successful!");
+        localStorage.setItem("token", response.data.token);
+        console.log("User token:", response.data.token);
+  
+        // Optionally redirect to a different page (e.g., tasks)
+        window.location.href = "/navigation";
+      } catch (error) {
+        // Handle errors
+        if (error.response && error.response.data) {
+          setErrors({ email: "Incorrect email or password" });
+        } else {
+          alert("An error occurred during login.");
+        }
+      } finally {
+        setSubmitting(false);
+      }
+    };
 
   return (
     <div className="login-container">
