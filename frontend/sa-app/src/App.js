@@ -4,6 +4,7 @@ import Navigation from "./navigation_page/Navigation";
 import Login from "./login_page/Login";
 import Register from "./register_page/Register";
 import Tasks from "./tasks_page/Tasks";
+import SpecificTask from "./specific_task_page/SpecificTask";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/tasks" element={<Tasks />} />
+        <Route path="/specific-task" element={<SpecificTask />} />
       </Routes>
     </Router>
   );
