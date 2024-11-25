@@ -1,0 +1,44 @@
+.card {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+  color: white;
+  flex-grow: 1;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.card-title {
+  font-family: "Inter", sans-serif;
+  font-weight: semibold;
+  font-size: 24px;
+  margin: 0;
+  text-align: left;
+}
+
+.card-description {
+  font-family: "Inter", sans-serif;
+  font-weight: regular;
+  font-size: 14px;
+  margin: 0;
+  text-align: left;
+}
+.card-icon {
+  height: 35px;
+  width: 35px;
+}
