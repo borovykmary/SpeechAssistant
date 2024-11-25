@@ -1,0 +1,197 @@
+.app-container {
+  width: 390px;
+  height: 844px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Optional, set background color */
+  margin: 0 auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow to simulate mobile view */
+  overflow: hidden;
+  position: relative;
+}
+.navigation-container {
+  width: 100%;
+  max-width: 390px;
+  height: 844px;
+  background-color: #4b2c7d;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.navigation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hamburger-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+}
+.hamburger-icon {
+  cursor: pointer;
+  width: 24px;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  gap: 5px;
+  top: 125px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  width: 90%;
+  padding: 0 15px;
+  box-sizing: border-box;
+  height: 70%;
+}
+.card-statistics {
+  margin-bottom: 6px;
+  flex: 0 1 5%;
+}
+
+.card-events {
+  margin-bottom: 4px;
+  flex: 0 1 11%;
+}
+.card-meditations {
+  margin-bottom: 18px;
+  flex: 0 1 20%;
+}
+.card-tasks {
+  flex: 0 1 63%;
+}
+
+.background-image-container {
+  position: absolute;
+  top: 115px;
+  align-self: center;
+  width: 90%;
+  height: auto;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.background-image {
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+}
+
+.slide-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 40%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Above the overlay */
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 20px;
+}
+.menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  cursor: pointer;
+}
+
+.slide-menu.open {
+  transform: translateX(0);
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  margin-top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-logo {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  text-align: center;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  font-size: 20px;
+  color: #a4a4a4;
+  margin: 20px 0;
+  cursor: pointer;
+}
+.user-avatar:hover {
+  background-color: #f1f1f1;
+}
+
+.logout-btn {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  color: #403f43;
+  background-color: transparent;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #f1f1f1;
+}

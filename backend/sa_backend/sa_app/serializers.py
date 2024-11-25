@@ -19,7 +19,7 @@ class LoginSerializer(serializers.Serializer):
         email = data.get('email')
         password = data.get('password')
 
-        user = authenticate(email=email, password=password)
+        user = authenticate(request=self.context.get('request'), username=email, password=password)
         if user is None:
             raise serializers.ValidationError('Invalid email or password')
 
@@ -28,6 +28,7 @@ class LoginSerializer(serializers.Serializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(write_only=True)
     class Meta:
         model = User
         fields = ['email', 'password', 'password2']
