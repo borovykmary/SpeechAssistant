@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './Landing.css';
+import logo from './assets/logo.png';
+import illustration from './assets/illustration.svg';
 
-function App() {
+
+function Landing() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="landing-page">
+        <header className="header">
+          <img src={logo} alt="Speech Assistant Logo" className="logo"/>
+          <h1>Introducing</h1>
+          <h2 className="app-name">Speech Assistant</h2>
+          <p className="description">
+            An application designed to help users who struggle with public presentations
+            improve their pronunciation, emotional expression, and manage performance anxiety
+            before and after speaking events.
+          </p>
+          <button className="get-started">Get Started</button>
+        </header>
+        <div className="illustration-container">
+          <img src={illustration} alt="Illustration"
+               className="illustration"/> {}
+        </div>
+      </div>
   );
 }
 
-export default App;
+export default Landing;
