@@ -1,29 +1,23 @@
-import React from 'react';
-import './Landing.css';
-import logo from './assets/logo.png';
-import illustration from './assets/illustration.svg';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navigation from "./navigation_page/Navigation";
+import Login from "./login_page/Login";
+import Register from "./register_page/Register";
+import Tasks from "./tasks_page/Tasks";
+import Landing from "./landing_page/Landing";
 
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Landing />} /> {}
+                <Route path="/navigation" element={<Navigation />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/tasks" element={<Tasks />} />
+            </Routes>
+        </Router>
+    );
+};
 
-function Landing() {
-  return (
-      <div className="landing-page">
-        <header className="header">
-          <img src={logo} alt="Speech Assistant Logo" className="logo"/>
-          <h1>Introducing</h1>
-          <h2 className="app-name">Speech Assistant</h2>
-          <p className="description">
-            An application designed to help users who struggle with public presentations
-            improve their pronunciation, emotional expression, and manage performance anxiety
-            before and after speaking events.
-          </p>
-          <button className="get-started">Get Started</button>
-        </header>
-        <div className="illustration-container">
-          <img src={illustration} alt="Illustration"
-               className="illustration"/> {}
-        </div>
-      </div>
-  );
-}
-
-export default Landing;
+export default App;
