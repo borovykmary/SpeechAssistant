@@ -2,9 +2,15 @@ import React from 'react';
 import './Landing.css';
 import logo from './assets/logo.png';
 import illustration from './assets/illustration.svg';
+import { useNavigate } from "react-router-dom";
 
 
 function Landing() {
+    const navigate = useNavigate();
+    const getStarted = () => {
+        navigate("/login")
+    };
+
     return (
         <div className="landing-page">
             <header className="header">
@@ -16,7 +22,7 @@ function Landing() {
                     improve their pronunciation, emotional expression, and manage performance anxiety
                     before and after speaking events.
                 </p>
-                <button className="get-started">Get Started</button>
+                <button className="get-started" onClick={getStarted}>Get Started</button>
             </header>
             <div className="illustration-container">
                 <img src={illustration} alt="Illustration"
