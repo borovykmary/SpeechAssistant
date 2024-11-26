@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Navigation.css";
 import Card from "./components/Card";
 import hamburgerIcon from "./assets/bars-3.svg";
@@ -8,10 +9,15 @@ import arrowIcon from "./assets/arrow-right-circle.svg";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
+  const handleCardClick = (route) => {
+    navigate(route);
+  };
+
   return (
     <div className="app-container">
       <div className="navigation-container">
@@ -30,26 +36,30 @@ const Navigation = () => {
         <div className="cards-container">
           <Card
             className="card-statistics"
-            title="Statistics"
+            title="Statistics Dashboard"
             icon={arrowIcon}
+            onClick={() => handleCardClick("/statistics")}
           />
           <Card
             className="card-events"
-            title="Events"
+            title="Events Calendar"
             description="description description description..."
             icon={arrowIcon}
+            onClick={() => handleCardClick("/calendar")}
           />
           <Card
             className="card-meditations"
             title="Meditations"
             description="description description description..."
             icon={arrowIcon}
+            onClick={() => handleCardClick("/meditations")}
           />
           <Card
             className="card-tasks"
             title="Tasks"
             description="description description description..."
             icon={arrowIcon}
+            onClick={() => handleCardClick("/tasks")}
           />
         </div>
         {menuOpen && <div className="menu-overlay" onClick={toggleMenu} />}
@@ -65,9 +75,16 @@ const Navigation = () => {
           <div className="menu-content">
             <img src={logoIcon} alt="Logo" className="menu-logo" />
             <div className="menu-item">Profile Settings →</div>
-            <div className="menu-item">Home Page →</div>
+            <div className="menu-item" onClick={() => handleCardClick("/")}>
+              Home Page →
+            </div>
             <div className="user-avatar">AB</div>
-            <button className="logout-btn">Log Out</button>
+            <button
+              className="logout-btn"
+              onClick={() => handleCardClick("/login")}
+            >
+              Log Out
+            </button>
           </div>
         </div>
       </div>
