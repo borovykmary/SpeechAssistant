@@ -24,7 +24,7 @@ const RegisterSchema = Yup.object().shape({
 const Register = () => {
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/register/", {
+      const response = await axios.post("http://127.0.0.1:8000/api/register/", {
         email: values.email,
         password: values.password,
         password2: values.repeatPassword,

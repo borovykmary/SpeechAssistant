@@ -18,7 +18,7 @@ const Login = () => {
 
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
       try {
-        const response = await axios.post("http://127.0.0.1:8000/login/", {
+        const response = await axios.post("http://127.0.0.1:8000/api/login/", {
           email: values.email,
           password: values.password,
         });
