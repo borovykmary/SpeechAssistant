@@ -1,0 +1,102 @@
+html,
+body {
+  font-family: Arial, Helvetica, sans-serif; /* Placeholder for future font change */
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fff;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 2rem;
+  /*border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);*/
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  color: #3c3393;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.register-form .form-field {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.register-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #3c3393;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #3c3393;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.register-button:hover:not(:disabled) {
+  background-color: #583393;
+}
+
+.register-footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.log-in {
+  color: #3c3393;
+  text-decoration: none;
+}
+
+.log-in:hover {
+  text-decoration: underline;
+}
