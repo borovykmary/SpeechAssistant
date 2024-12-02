@@ -152,30 +152,41 @@
 .logout-btn:hover {
   background-color: #f1f1f1;
 }
-.cards-container {
+.cards-med-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
-
   gap: 15px;
   z-index: 1;
-}
-
-.card {
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  width: 100%;
   padding: 10px;
-  text-align: center;
+  box-sizing: border-box;
+  height: 60%;
 }
 
-.card-big {
+.card-med {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+  color: white;
+  flex-grow: 1;
+  z-index: 2;
+}
+.card-med:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-med-big {
   grid-row: span 2;
 }
 
-.card-small {
+.card-med-small {
   grid-row: span 1;
 }
