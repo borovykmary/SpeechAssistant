@@ -17,8 +17,8 @@ function Meditations() {
 
   return (
     <div className="app-container">
-      <div className="navigation-container">
-        <header className="navigation-header">
+      <div className="navigation-container-med">
+        <header className="navigation-header-med">
           <img src={logoIcon} alt="Logo" className="logo-icon" />
           <img
             src={hamburgerIcon}
