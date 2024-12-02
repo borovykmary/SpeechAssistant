@@ -59,27 +59,27 @@ function Meditations() {
             </button>
           </div>
         </div>
-        <div className="cards-container">
+        <div className="cards-med-container">
           <div
-            className="card card-big"
+            className="card-med card-med-big"
             style={{ gridRow: "1 / span 2", gridColumn: "1" }}
           >
             Card 1
           </div>
           <div
-            className="card card-small"
+            className="card-med card-med-small"
             style={{ gridRow: "1", gridColumn: "2" }}
           >
             Card 2
           </div>
           <div
-            className="card card-small"
+            className="card-med card-med-small"
             style={{ gridRow: "3", gridColumn: "1" }}
           >
             Card 3
           </div>
           <div
-            className="card card-big"
+            className="card-med card-med-big"
             style={{ gridRow: "2 / span 2", gridColumn: "2" }}
           >
             Card 4
