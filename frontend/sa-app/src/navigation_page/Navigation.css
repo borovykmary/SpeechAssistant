@@ -27,6 +27,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
 }
 
 .hamburger-icon {
@@ -38,10 +39,6 @@
 .logo-icon {
   width: 50px;
   height: 50px;
-}
-.hamburger-icon {
-  cursor: pointer;
-  width: 24px;
 }
 
 .cards-container {
@@ -128,13 +125,15 @@
 }
 
 .close-btn {
-  align-self: flex-end;
+  position: absolute;
+  top: 10px;
+  right: 15px;
   background: none;
   border: none;
-  margin-top: 10px;
   font-size: 24px;
   cursor: pointer;
-  color: #333;
+  color: #ffffff;
+  z-index: 1001;
 }
 
 .menu-content {
@@ -144,15 +143,19 @@
 }
 
 .menu-logo {
-  width: 60px;
+  width: 50px;
   margin-bottom: 20px;
+  right: 90px;
+  position: relative;
+  z-index: 1001;
 }
 
 .menu-item {
   width: 100%;
   padding: 15px;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
+  font-weight: medium;
   color: #333;
   border-bottom: 1px solid #eee;
   cursor: pointer;
@@ -194,4 +197,13 @@
 
 .logout-btn:hover {
   background-color: #f1f1f1;
+}
+.top-rectangle {
+  width: 100%;
+  height: 66px;
+  background: #7775b7;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
