@@ -44,6 +44,12 @@ function Meditations() {
             <div className="menu-item" onClick={() => handleCardClick("/")}>
               Home Page →
             </div>
+            <div
+              className="menu-item"
+              onClick={() => handleCardClick("/navigation")}
+            >
+              Navigation Page →
+            </div>
             <div className="user-avatar">AB</div>
             <button
               className="logout-btn"
@@ -51,6 +57,32 @@ function Meditations() {
             >
               Log Out
             </button>
+          </div>
+        </div>
+        <div className="cards-container">
+          <div
+            className="card card-big"
+            style={{ gridRow: "1 / span 2", gridColumn: "1" }}
+          >
+            Card 1
+          </div>
+          <div
+            className="card card-small"
+            style={{ gridRow: "1", gridColumn: "2" }}
+          >
+            Card 2
+          </div>
+          <div
+            className="card card-small"
+            style={{ gridRow: "3", gridColumn: "1" }}
+          >
+            Card 3
+          </div>
+          <div
+            className="card card-big"
+            style={{ gridRow: "2 / span 2", gridColumn: "2" }}
+          >
+            Card 4
           </div>
         </div>
       </div>
