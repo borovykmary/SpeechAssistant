@@ -3,6 +3,8 @@ import "./Meditations.css";
 import logoIcon from "../navigation_page/assets/logo.svg";
 import hamburgerIcon from "../navigation_page/assets/bars-3.svg";
 import { useNavigate } from "react-router-dom";
+import YogaBg from "./assets/yoga-girl.svg";
+import arrowIcon from "../navigation_page/assets/arrow-right-circle.svg";
 
 function Meditations() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,7 +18,7 @@ function Meditations() {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container-med">
       <div className="navigation-container-med">
         <header className="navigation-header-med">
           <img src={logoIcon} alt="Logo" className="logo-icon" />
@@ -59,30 +61,47 @@ function Meditations() {
             </button>
           </div>
         </div>
+        <img src={YogaBg} alt="Yoga Girl" className="background-svg" />
         <div className="cards-med-container">
           <div
             className="card-med card-med-big"
             style={{ gridRow: "1 / span 2", gridColumn: "1" }}
           >
-            Card 1
+            <div className="card-content">
+              <div className="card-title">Mindfullness Meditation</div>
+
+              <img src={arrowIcon} alt="Arrow" className="card-arrow" />
+            </div>
           </div>
           <div
             className="card-med card-med-small"
             style={{ gridRow: "1", gridColumn: "2" }}
           >
-            Card 2
+            <div className="card-content">
+              <div className="card-title">4-7-8 technique</div>
+
+              <img src={arrowIcon} alt="Arrow" className="card-arrow" />
+            </div>
           </div>
           <div
             className="card-med card-med-small"
             style={{ gridRow: "3", gridColumn: "1" }}
           >
-            Card 3
+            <div className="card-content">
+              <div className="card-title">Music meditation</div>
+
+              <img src={arrowIcon} alt="Arrow" className="card-arrow" />
+            </div>
           </div>
           <div
             className="card-med card-med-big"
             style={{ gridRow: "2 / span 2", gridColumn: "2" }}
           >
-            Card 4
+            <div className="card-content">
+              <div className="card-title">Diaphragmatic breathing</div>
+
+              <img src={arrowIcon} alt="Arrow" className="card-arrow" />
+            </div>
           </div>
         </div>
       </div>
