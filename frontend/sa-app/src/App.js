@@ -9,20 +9,21 @@ import Landing from "./landing_page/Landing";
 import Statistics from "./statistics_page/Statistics";
 import Meditations from "./meditations_page/Meditations";
 import Calendar from "./calendar_page/Calendar";
+import ProtectedRoute from "./authorization/ProtectedRoute";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} /> {}
-        <Route path="/navigation" element={<Navigation />} />
+        <Route path="/navigation" element={<ProtectedRoute> <Navigation /> </ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/specific-task" element={<SpecificTask />} />
-        <Route path="/statistics" element={<Statistics />} />
-        <Route path="/meditations" element={<Meditations />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/tasks" element={<ProtectedRoute> <Tasks /> </ProtectedRoute>}/>
+        <Route path="/specific-task" element={<ProtectedRoute><SpecificTask /> </ProtectedRoute>} />
+        <Route path="/statistics" element={<ProtectedRoute><Statistics /> </ProtectedRoute>} />
+        <Route path="/meditations" element={<ProtectedRoute><Meditations /> </ProtectedRoute>} />
+        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
       </Routes>
     </Router>
   );
