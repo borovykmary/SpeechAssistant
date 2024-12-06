@@ -1,4 +1,4 @@
-.app-container {
+.app-container-med {
   width: 390px;
   height: 844px;
   display: flex;
@@ -17,16 +17,25 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 20px;
   position: relative;
   overflow: hidden;
+}
+.background-svg {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  width: 60%;
+  transform: translateX(-50%);
+  z-index: 0;
 }
 
 .navigation-header-med {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1;
+  z-index: 2;
 }
 .hamburger-icon {
   width: 30px;
@@ -153,22 +162,22 @@
 .logout-btn:hover {
   background-color: #f1f1f1;
 }
+
 .cards-med-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
   gap: 15px;
-  z-index: 1;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  height: 60%;
+  height: 65%;
 }
 
 .card-med {
   position: relative;
   background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
+  border-radius: 30px;
   padding: 15px;
   display: flex;
   align-items: flex-start;
@@ -176,7 +185,7 @@
   transition: transform 0.3s, box-shadow 0.3s;
   overflow: hidden;
   color: white;
-  flex-grow: 1;
+  border: 2px solid white;
   z-index: 2;
 }
 .card-med:hover {
@@ -186,8 +195,31 @@
 
 .card-med-big {
   grid-row: span 2;
+  background-color: linear-gradient(135deg, #53519b, #8684c1);
 }
 
 .card-med-small {
   grid-row: span 1;
+  background-color: #8684c1;
+}
+.card-med .card-content {
+  z-index: 2;
+  position: relative;
+  align-self: center;
+}
+.card-med .card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.card-med .card-description {
+  font-size: 14px;
+}
+
+.card-med .card-arrow {
+  align-self: center;
+  width: 30px;
+  height: 30px;
+  margin-top: 15px;
 }
