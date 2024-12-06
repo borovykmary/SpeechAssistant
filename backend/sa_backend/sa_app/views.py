@@ -53,3 +53,10 @@ def landing_page(request):
         'message': 'Redirection succeeded',
         'login_url': login_url,
     }, status=200)
+
+
+@api_view(['GET'])
+def check_login(request):
+    if request.user.is_authenticated:
+        return Response({'logged_in': True}, status=200)
+    return Response({'logged_in': False}, status=401)
