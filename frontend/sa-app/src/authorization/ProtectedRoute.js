@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Navigate} from "react-router-dom";
 
 const isAuthenticated = async () => {
-  const response = await fetch("http://localhost:8000/check-login/", 
+  const response = await fetch("http://localhost:8000/api/check_login/", 
     {credentials: "include"});
     if (response.ok) {
       return true;
