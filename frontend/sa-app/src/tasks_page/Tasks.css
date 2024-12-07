@@ -1,5 +1,14 @@
-/* General App Styling */
 .app-container {
+  width: 390px;
+  height: 844px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+.tasks-container {
   width: 390px;
   height: 844px;
   display: flex;
@@ -8,132 +17,234 @@
   margin: 0 auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   font-family: "Inter", sans-serif;
+  font-size: 20px;
   font-weight: 400;
   color: #2e2e7f;
   overflow: hidden;
 }
 
-/* Header */
-.header {
-  text-align: center;
+
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 16px;
 }
 
-/* Task List */
+.tasks-text {
+  text-align: center;
+  font-size: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+
 .task-list {
   margin-top: 16px;
   padding: 0 16px;
   width: 100%;
   box-sizing: border-box;
   overflow-y: auto;
-  max-height: calc(844px - 200px); /* Adjusts height to fit within the container minus the header height */
+  max-height: calc(844px - 200px); 
 }
 
-/* Task Card */
+
 .task-card {
   border: 2px solid #2e2e7f;
-  border-radius: 30px; /* Rounded corners */
+  border-radius: 30px; 
   padding: 16px;
   margin-bottom: 16px;
   width: 100%;
-  height: 124px; /* Fixed height */
+  height: 124px; 
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align content to the top */
+  justify-content: flex-start;
 }
 
-/* Task Header */
+
 .task-header {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align index and emotion text to the left */
+  align-items: flex-start;
 }
 
-/* Task Index */
+
 .task-number {
-  font-size: 24px; /* Larger font size for the index */
-  font-weight: 600; /* Semi-bold */
+  font-size: 24px; 
+  font-weight: 600; 
   font-family: "Inter", sans-serif;
   color: #2e2e7f;
-  margin-bottom: 4px; /* Space between index and emotion text */
+  margin-bottom: 4px; 
+}
+.logo-icon {
+  width: 50px;
+  height: 50px;
 }
 
-/* Task Title */
 .task-title {
   font-size: 24px;
   margin-left: 43px;
-  font-weight: 600; /* Regular weight */
+  font-weight: 600; 
   color: #2e2e7f;
 }
 
-/* Task Title */
+
 .task-description {
   font-size: 16px;
   margin-left: 43px;
-  font-weight: 400; /* Regular weight */
+  font-weight: 400; 
   color: #2e2e7f;
 }
 
-/* Arrow Icon */
+
 .arrow-icon {
   position: absolute;
   width: 30px;
-  height: 30px; /* Set fixed size */
+  height: 30px; 
   bottom: 16px;
   right: 16px;
   font-size: 30px;
   color: #2e2e7f;
 }
 
-/* Progress Bar Container */
+
 .progress-container {
   display: flex;
-  flex-direction: column; /* Stack text above the progress bar */
-  align-items: flex-start; /* Align items to the left */
+  flex-direction: column; 
+  align-items: flex-start; 
   margin-top: 16px;
   position: relative;
-  width: 100%; /* Ensures progress bar spans the full width */
+  width: 90%;
+  padding-left: 16px;
 }
 
-/* Progress Text */
 .progress-text {
   font-family: "Inter", sans-serif;
   font-size: 8px;
   font-weight: 600;
   color: #8d8d8d;
-  margin-bottom: 4px; /* Add space between text and the progress bar */
+  margin-bottom: 4px; 
 }
 
-/* Progress Bar Track */
+
 .progress-bar-track {
   width: 100%;
   height: 8px;
-  background-color: #e0e0e0; /* Light gray for track */
+  background-color: #e0e0e0; 
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+
 }
 
-/* Progress Fill */
+
 .progress-bar-fill {
   position: absolute;
   height: 100%;
-  background-color: #2e2e7f; /* Dark blue */
+  background-color: #2e2e7f; 
   border-radius: 4px;
   transition: width 0.5s ease;
 }
 
-/* Dots on the Progress Bar */
+
 .progress-bar-dot {
   width: 4px;
   height: 4px;
   background-color: white;
   border-radius: 50%;
   position: relative;
-  z-index: 1; /* Ensures dots stay above the fill */
+  z-index: 1; 
+}
+.hamburger-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  cursor: pointer;
+}
+
+.slide-menu.open {
+  transform: translateX(0);
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  margin-top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-logo {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  text-align: center;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  font-size: 20px;
+  color: #a4a4a4;
+  margin: 20px 0;
+  cursor: pointer;
+}
+.user-avatar:hover {
+  background-color: #f1f1f1;
+}
+
+.logout-btn {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  color: #403f43;
+  background-color: transparent;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #f1f1f1;
 }
