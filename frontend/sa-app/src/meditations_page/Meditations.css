@@ -1,12 +1,226 @@
-.app-container {
+.app-container-med {
   width: 390px;
   height: 844px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #7775b7, #3c3393);
   margin: 0 auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   position: relative;
+}
+.navigation-container-med {
+  width: 100%;
+  max-width: 390px;
+  height: 844px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.background-svg {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: 70%;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.navigation-header-med {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  margin-top: 10px;
+}
+.hamburger-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+}
+.slide-menu {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 250px;
+  height: 350px;
+  background-color: white;
+
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 20px;
+}
+.top-rectangle {
+  width: 100%;
+  height: 66px;
+  background: #7775b7;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  cursor: pointer;
+}
+
+.slide-menu.open {
+  transform: translateX(0);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #ffffff;
+  z-index: 1001;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-logo {
+  top: 5px;
+  width: 50px;
+
+  right: 90px;
+  position: relative;
+  z-index: 1001;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: medium;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  font-size: 20px;
+  color: #a4a4a4;
+  margin: 20px 0;
+  cursor: pointer;
+}
+.user-avatar:hover {
+  background-color: #f1f1f1;
+}
+
+.logout-btn {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  color: #403f43;
+  background-color: transparent;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.cards-med-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 15px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 60%;
+  margin-bottom: 40px;
+}
+
+.card-med {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 15px;
+  display: flex;
+  gap: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+  color: white;
+  border: 2px solid white;
+  z-index: 2;
+}
+.card-med:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-med-big {
+  grid-row: span 2;
+  background-color: linear-gradient(135deg, #53519b, #8684c1);
+}
+
+.card-med-small {
+  grid-row: span 1;
+  background-color: #8684c1;
+}
+.card-med .card-content {
+  z-index: 2;
+  position: relative;
+  align-self: center;
+}
+.card-med .card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.card-med .card-description {
+  font-size: 14px;
+}
+
+.card-med .card-arrow {
+  align-self: center;
+  width: 30px;
+  height: 30px;
+  margin-top: 15px;
 }
