@@ -14,7 +14,7 @@ const taskData = [
 const Statistics = () => {
   return (
     <div className="statistics-container">
-      <div className="logo">
+      <div className="logo-stats">
         <img src={logo} alt="Speech Assistant Logo" className="statistics-logo" />
       </div>
       <div className="statistics-header">
