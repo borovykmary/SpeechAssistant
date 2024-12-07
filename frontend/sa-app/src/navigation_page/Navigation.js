@@ -6,6 +6,8 @@ import hamburgerIcon from "./assets/bars-3.svg";
 import logoIcon from "./assets/logo.svg";
 import cardsBg from "./assets/cardsBg.svg";
 import arrowIcon from "./assets/arrow-right-circle.svg";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,6 +19,36 @@ const Navigation = () => {
   const handleCardClick = (route) => {
     navigate(route);
   };
+
+  const handleLogout = async () => {
+    try {
+      // Get the CSRF token from the cookie
+      const csrfToken = Cookies.get("csrftoken");
+  
+      // Make a POST request to the logout endpoint
+      const response = await axios.post(
+        "http://localhost:8000/api/logout/",
+        {},
+        {
+          withCredentials: true,  // Include credentials (cookies)
+          headers: {
+            "X-CSRFToken": csrfToken,  // Add the CSRF token to the headers
+          },
+        }
+      );
+  
+      console.log("Logout successful:", response);
+  
+      Cookies.remove("sessionid");
+  
+      // Navigate to the login page after successful logout
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+  
+  
 
   return (
     <div className="app-container">
@@ -81,7 +113,7 @@ const Navigation = () => {
             <div className="user-avatar">AB</div>
             <button
               className="logout-btn"
-              onClick={() => handleCardClick("/login")}
+              onClick={handleLogout}
             >
               Log Out
             </button>

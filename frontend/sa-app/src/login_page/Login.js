@@ -4,43 +4,57 @@ import * as Yup from "yup";
 import axios from "axios";
 import "./Login.css";
 import logo from "../navigation_page/assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 // Defining the validation schema using Yup
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Username is required"),
-  password: Yup.string()
-    .required("Password is required"),
+  password: Yup.string().required("Password is required"),
 });
 
-const Login = () => {
+// Function to fetch CSRF token from cookies
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
-    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+const Login = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      // Do not check for the token before the first request
+      const csrfToken = getCookie("csrftoken"); // CSRF token will be available after the first request
+
+      const response = await axios.post(
+        "http://localhost:8000/api/login/",
+        {
           email: values.email,
           password: values.password,
-        });
-  
-        // Handle success (e.g., store token)
-        alert("Login successful!"); // for development purposes
-        localStorage.setItem("token", response.data.token);
-        console.log("User token:", response.data.token);
-  
-        // Optionally redirect to a different page (e.g., tasks)
-        window.location.href = "/navigation";
-      } catch (error) {
-        // Handle errors
-        if (error.response && error.response.data) {
-          setErrors({ email: "Incorrect email or password" });
-        } else {
-          alert("An error occurred during login.");
+        },
+        {
+          withCredentials: true, // Ensure cookies are sent with the request
+          headers: {
+            "X-CSRFToken": csrfToken || "", // Only attach CSRF token if available
+          },
         }
-      } finally {
-        setSubmitting(false);
+      );
+
+      alert("Login successful!");
+      navigate("/navigation"); // Redirect to navigation page after successful login
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setErrors({ email: "Incorrect email or password" });
+      } else {
+        alert("An error occurred during login.");
       }
-    };
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="login-container">
@@ -90,15 +104,10 @@ const Login = () => {
           )}
         </Formik>
 
-        <div className="login-footer">{/*
-          <a href="/forgot-password" className="forgot-password">
-            {/* Placeholder for future 'Forgot password' link
-            Forgot password?
-          </a>*/}
+        <div className="login-footer">
           <p>
             Don't have an account?{" "}
             <a href="/register" className="sign-up">
-              {/* Placeholder for 'Sign Up' link*/}
               Register
             </a>
           </p>
