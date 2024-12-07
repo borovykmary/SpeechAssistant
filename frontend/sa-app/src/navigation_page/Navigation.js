@@ -69,6 +69,7 @@ const Navigation = () => {
             transform: menuOpen ? "translateX(0)" : "translateX(100%)",
           }}
         >
+          <div className="top-rectangle"></div>
           <button className="close-btn" onClick={toggleMenu}>
             ✕
           </button>
