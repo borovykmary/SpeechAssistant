@@ -14,7 +14,7 @@ function Landing() {
     return (
         <div className="landing-page">
             <header className="header">
-                <img src={logo} alt="Speech Assistant Logo" className="logo"/>
+                <img src={logo} alt="Speech Assistant Logo" className="logo-landing"/>
                 <h1>Introducing</h1>
                 <h2 className="app-name">Speech Assistant</h2>
                 <p className="description">
