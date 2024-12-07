@@ -69,7 +69,7 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
       formData.append("audio_file", audioBlob, "recordedAudio.mp3");
 
 
-      const response = await fetch("http://localhost:3000/upload_audio/", {
+      const response = await fetch("http://localhost:8000/upload_audio/", {
         method: "POST",
         body: formData,
       });
