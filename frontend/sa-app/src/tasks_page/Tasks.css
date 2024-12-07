@@ -116,8 +116,8 @@
   align-items: flex-start; 
   margin-top: 16px;
   position: relative;
-  width: 100%;
-  padding: 16 16px;
+  width: 90%;
+  padding-left: 16px;
 }
 
 .progress-text {
