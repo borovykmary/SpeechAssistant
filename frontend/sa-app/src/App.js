@@ -9,6 +9,9 @@ import Landing from "./landing_page/Landing";
 import Statistics from "./statistics_page/Statistics";
 import Meditations from "./meditations_page/Meditations";
 import Calendar from "./calendar_page/Calendar";
+import DiaphragmaticBreathingInstructions from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingInstructions";
+import DiaphragmaticBreathingTimer from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingTimer";
+
 
 const App = () => {
   return (
@@ -23,6 +26,9 @@ const App = () => {
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/meditations" element={<Meditations />} />
         <Route path="/calendar" element={<Calendar />} />
+        <Route
+            path="/diaphragmatic-breathing" element={<DiaphragmaticBreathingInstructions />}/>
+        <Route path="/diaphragmatic-breathing-timer/:timer" element={<DiaphragmaticBreathingTimer />}/>
       </Routes>
     </Router>
   );
