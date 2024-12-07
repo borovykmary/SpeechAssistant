@@ -63,7 +63,7 @@ const TasksPage = () => {
             <div className="task-header">
               <span className="task-number">0{index + 1}</span>
               <span className="task-title">Emotion: {task.emotion}</span>
-              <span className="task-description">text variation {index + 1}</span>
+              <span className="task-description">{task.task_description}</span>
             </div>
             <div className="arrow-icon">↘</div> {/* Arrow in bottom-right */}
           </div>

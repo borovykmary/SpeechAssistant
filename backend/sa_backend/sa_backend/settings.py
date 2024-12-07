@@ -57,7 +57,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-ROOT_URLCONF = 'sa_app.urls'
+ROOT_URLCONF = 'sa_backend.urls'
 
 TEMPLATES = [
     {
