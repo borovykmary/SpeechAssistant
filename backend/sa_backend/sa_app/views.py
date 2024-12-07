@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Task
-from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer
+from .models import Task, AudioRecording
+from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, AudioRecordingSerializer
 from django.contrib.auth import login, logout
-
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
 
 @api_view(['GET'])
 def get_all_tasks(request):
@@ -53,3 +54,14 @@ def landing_page(request):
         'message': 'Redirection succeeded',
         'login_url': login_url,
     }, status=200)
+
+@api_view(['POST'])
+def upload_audio(request):
+    parser_classes = (MultiPartParser, FormParser)
+    serializer = AudioRecordingSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': 'Audio uploaded successfully!'}, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

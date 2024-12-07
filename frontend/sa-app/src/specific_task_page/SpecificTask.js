@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ConfirmationPopup from "./ConfirmationPopup";
 import WarningPopup from "./WarningPopup";
@@ -14,7 +14,8 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [confirmedAudio, setConfirmedAudio] = useState(null);
-  const [feedback, setFeedback] = useState(null); // To hold feedback text
+  const [feedback, setFeedback] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("");
 
   const navigate = useNavigate();
   const emotion = emotionDataMockup[selectedEmotion] || emotionDataMockup["confidence"];
@@ -58,35 +59,37 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
     setAudioUrl("");
   };
 
-  const handleConfirmAudio = () => {
+  const handleConfirmAudio = async () => {
     setShowConfirmationPopup(false);
     setConfirmedAudio(audioUrl);
-    setFeedback("Great job! You pronounced the text clearly, but there were slight variations in the emotional tone. Keep practicing to align more closely with the intended emotion.");
 
-  
-    /*
     try {
-      // Prepare FormData to send the audio
-      const formData = new FormData();
-      formData.append("audio", audioBlob, "recordedAudio.ogg"); // Attach the audio blob
 
-      // Send the audio file to the backend API using a POST request
-      const response = await fetch("/api/uploadAudio", {
+      const formData = new FormData();
+      formData.append("audio_file", audioBlob, "recordedAudio.mp3");
+
+
+      const response = await fetch("http://localhost:3000/upload_audio/", {
         method: "POST",
-        body: formData,  // Sending FormData with audio
+        body: formData,
       });
 
       if (response.ok) {
-        console.log("Audio successfully sent to the backend.");
-        // You can handle the response here, such as saving metadata or showing a success message
+        const result = await response.json();
+        console.log("Audio successfully sent to the backend:", result);
+        setFeedback("Audio uploaded successfully! Keep practicing!");
+        setUploadStatus("success");
       } else {
-        throw new Error("Audio upload failed.");
+        const error = await response.json();
+        console.error("Audio upload failed:", error);
+        setFeedback("Audio upload failed. Please try again.");
+        setUploadStatus("failure");
       }
     } catch (error) {
       console.error("Error sending audio:", error);
       setFeedback("There was an issue sending the audio. Please try again.");
+      setUploadStatus("failure");
     }
-    */
   };
 
   const handleBackButtonClick = () => {
@@ -160,14 +163,14 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
           <WarningPopup onCancel={handleCancelWarning} onConfirm={handleConfirmWarning} />
         )}
 
-        {/* Audio Playback and Feedback Section */}
+        {}
         {confirmedAudio && (
           <>
             <div className="audio-playback">
               <h4>Your audio:</h4>
               <div className="audio-container">
                 <audio controls>
-                  <source src={confirmedAudio} type="audio/webm" />
+                  <source src={confirmedAudio} type="audio/ogg" />
                   Your browser does not support the audio element.
                 </audio>
               </div>
@@ -177,6 +180,12 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
               <h3>Feedback to your attempt:</h3>
               <p>{feedback}</p>
             </div>
+
+            {uploadStatus && (
+              <div className={`upload-status ${uploadStatus}`}>
+                {uploadStatus === "success" ? "✅ Audio uploaded successfully!" : "❌ Audio upload failed!"}
+              </div>
+            )}
           </>
         )}
       </div>

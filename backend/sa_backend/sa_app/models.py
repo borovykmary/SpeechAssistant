@@ -68,3 +68,12 @@ class Result(models.Model):
 
     def __str__(self):
         return f"Result for {self.user.email} on task {self.task.id}"
+
+
+
+class AudioRecording(models.Model):
+    audio_file = models.FileField(upload_to="audio_recordings/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Audio uploaded on {self.uploaded_at}"
