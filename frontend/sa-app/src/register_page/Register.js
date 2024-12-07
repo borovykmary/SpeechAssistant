@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import "./Register.css";
 import logo from "../navigation_page/assets/logo.svg";
 
@@ -8,20 +9,43 @@ import logo from "../navigation_page/assets/logo.svg";
 const RegisterSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
-    .required("Username is required"),
+    .required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters") // Update min password length according to our reqs
+    .min(8, "Password must be at least 8 characters") // Update min password length according to our reqs
+    .matches(/[A-Z]/, "Password must contain at least capital letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character")
     .required("Password is required"),
   repeatPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
+    .required("Please re-enter your password"),
 });
 
 const Register = () => {
-  const handleSubmit = (values) => {
-    // Placeholder function for form submission
-    console.log("Form submitted with:", values);
-    alert("Register functionality not implemented yet.");
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/register/", {
+        email: values.email,
+        password: values.password,
+        password2: values.repeatPassword,
+      });
+
+      // Handle success
+      alert("Registration successful!"); // for development purposes
+      console.log("User registered:", response.data.user);
+
+      // Redirect to login page
+      window.location.href = "/login";
+    } catch (error) {
+      // Handle errors
+      if (error.response && error.response.data.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        alert("An error occurred during registration.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

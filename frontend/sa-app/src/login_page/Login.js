@@ -11,7 +11,6 @@ const LoginSchema = Yup.object().shape({
     .email("Invalid email address")
     .required("Username is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters") // Update min password length according to our reqs
     .required("Password is required"),
 });
 
@@ -19,13 +18,13 @@ const Login = () => {
 
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
       try {
-        const response = await axios.post("http://127.0.0.1:8000/login/", {
+        const response = await axios.post("http://127.0.0.1:8000/api/login/", {
           email: values.email,
           password: values.password,
         });
   
         // Handle success (e.g., store token)
-        alert("Login successful!");
+        alert("Login successful!"); // for development purposes
         localStorage.setItem("token", response.data.token);
         console.log("User token:", response.data.token);
   
@@ -91,11 +90,11 @@ const Login = () => {
           )}
         </Formik>
 
-        <div className="login-footer">
+        <div className="login-footer">{/*
           <a href="/forgot-password" className="forgot-password">
-            {/* Placeholder for future 'Forgot password' link*/}
+            {/* Placeholder for future 'Forgot password' link
             Forgot password?
-          </a>
+          </a>*/}
           <p>
             Don't have an account?{" "}
             <a href="/register" className="sign-up">
