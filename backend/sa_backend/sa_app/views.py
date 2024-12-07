@@ -27,8 +27,11 @@ def login_user(request):
 @api_view(['POST'])
 def logout_user(request):
     logout(request)
-    return Response({'message': 'Logout successful'}, status=200)
 
+    response = Response({'message': 'Logout successful'}, status=200)
+    response.delete_cookie('sessionid')
+
+    return response
 
 @api_view(['POST'])
 def register_user(request):
