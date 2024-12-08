@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-card">
-        <img src={logo} alt="Speech Assistant Logo" className="logo" />
+        <img src={logo} alt="Speech Assistant Logo" className="logo-register" />
         <h2>Welcome to Speech Assistant!</h2>
 
         <Formik
