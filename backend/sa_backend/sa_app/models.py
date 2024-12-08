@@ -38,16 +38,10 @@ class Event(models.Model):
     description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
 
-    def __str__(self):
-        return f"Event on {self.event_date} for {self.user.email}"
-
 # Meditations Table
 class Meditation(models.Model):
     meditation_type = models.CharField(max_length=50)
     meditation_description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.meditation_type
 
 # Tasks Table
 class Task(models.Model):
@@ -56,15 +50,10 @@ class Task(models.Model):
     text_sample = models.TextField(blank=True, null=True)
     emotion = models.CharField(max_length=50, blank=True, null=True)
 
-    def __str__(self):
-        return f"Task for {self.user.email} with emotion {self.emotion}"
-
 # Results Table
 class Result(models.Model):
+    recoded_audio = models.BinaryField(blank=True, null=True)
     voice_statistics = models.JSONField(blank=True, null=True)  # JSON field for storing complex statistics
     ai_response_text = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='results')
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='results')
-
-    def __str__(self):
-        return f"Result for {self.user.email} on task {self.task.id}"

@@ -1,7 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 import re
-from .models import Task, User
+from .models import Task, User, Result
 from django.contrib.auth import authenticate
 
 
@@ -59,3 +59,20 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+class ResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Result
+        fields = ['id', 'recoded_audio', 'voice_statistics', 'ai_response_text', 'user', 'task']
+
+    def validate(self, data):
+        if not data.get('recoded_audio'):
+            raise serializers.ValidationError("Recorded audio is required.")
+        if not data.get('user'):
+            raise serializers.ValidationError("User is required.")
+        if not data.get('task'):
+            raise serializers.ValidationError("Task is required.")
+        return data
+
+    def create(self, validated_data):
+        return Result.objects.create(**validated_data)
