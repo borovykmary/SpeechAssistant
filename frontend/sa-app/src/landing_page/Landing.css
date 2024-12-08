@@ -12,10 +12,10 @@
     padding: 0 16px;
 }
 
-.header {
-    text-align: center;
-    padding: 16px;
-}
+    .header {
+        text-align: center;
+        padding: 16px;
+    }
 
 .logo-landing {
     width: 60px;
@@ -23,54 +23,54 @@
     margin: 10px auto;
 }
 
-h1 {
-    font-size: 20px;
-    color: #444;
-    max-width: 340px;
-    margin: 0 auto;
-}
+    h1 {
+        font-size: 20px;
+        color: #444;
+        max-width: 340px;
+        margin: 0 auto;
+    }
 
-.app-name {
-    font-size: 28px;
-    font-weight: bold;
-    color: #7d6abf;
-    margin: 10px auto;
-    max-width: 340px;
-    text-align: center;
-}
+    .app-name {
+        font-size: 28px;
+        font-weight: bold;
+        color: #7d6abf;
+        margin: 10px auto;
+        max-width: 340px;
+        text-align: center;
+    }
 
-.description {
-    font-size: 14px;
-    color: #666;
-    margin: 10px auto;
-    line-height: 1.5;
-    max-width: 340px;
-    text-align: center;
-}
+    .description {
+        font-size: 14px;
+        color: #666;
+        margin: 10px auto;
+        line-height: 1.5;
+        max-width: 340px;
+        text-align: center;
+    }
 
-.get-started {
-    padding: 12px 24px;
-    font-size: 16px;
-    background-color: #7d6abf;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 20px auto;
-}
+    .get-started {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #7d6abf;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 20px auto;
+    }
 
-.get-started:hover {
-    background-color: #6a58a3;
-}
+    .get-started:hover {
+        background-color: #6a58a3;
+    }
 
-.illustration-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
+    .illustration-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
 
-.illustration {
-    width: 100%;
-    max-width: 360px;
-    height: auto;
-}
+    .illustration {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+    }
