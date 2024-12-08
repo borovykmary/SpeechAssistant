@@ -5,6 +5,8 @@ import hamburgerIcon from "../assets/bars-3.svg";
 import { useNavigate } from "react-router-dom";
 import YogaBg from "../assets/yoga-girl.svg";
 import arrowIcon from "../assets/arrow-right-circle.svg";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 function Meditations() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,6 +17,34 @@ function Meditations() {
   };
   const handleCardClick = (route) => {
     navigate(route);
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Get the CSRF token from the cookie
+      const csrfToken = Cookies.get("csrftoken");
+  
+      // Make a POST request to the logout endpoint
+      const response = await axios.post(
+        "http://localhost:8000/api/logout/",
+        {},
+        {
+          withCredentials: true,  // Include credentials (cookies)
+          headers: {
+            "X-CSRFToken": csrfToken,  // Add the CSRF token to the headers
+          },
+        }
+      );
+  
+      console.log("Logout successful:", response);
+  
+      Cookies.remove("sessionid");
+  
+      // Navigate to the login page after successful logout
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -46,16 +76,10 @@ function Meditations() {
             <div className="menu-item" onClick={() => handleCardClick("/")}>
               Home Page →
             </div>
-            <div
-              className="menu-item"
-              onClick={() => handleCardClick("/navigation")}
-            >
-              Navigation Page →
-            </div>
             <div className="user-avatar">AB</div>
             <button
               className="logout-btn"
-              onClick={() => handleCardClick("/login")}
+              onClick={handleLogout}
             >
               Log Out
             </button>

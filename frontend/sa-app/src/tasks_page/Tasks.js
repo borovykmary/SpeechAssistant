@@ -5,6 +5,7 @@ import hamburgerIconBlack from "../assets/bars-3-black.svg";
 import logoIconBlack from "../assets/logo-black.svg";
 import logoIcon from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -18,6 +19,34 @@ const TasksPage = () => {
 
   const handleCardClick = (route) => {
     navigate(route);
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Get the CSRF token from the cookie
+      const csrfToken = Cookies.get("csrftoken");
+  
+      // Make a POST request to the logout endpoint
+      const response = await axios.post(
+        "http://localhost:8000/api/logout/",
+        {},
+        {
+          withCredentials: true,  // Include credentials (cookies)
+          headers: {
+            "X-CSRFToken": csrfToken,  // Add the CSRF token to the headers
+          },
+        }
+      );
+  
+      console.log("Logout successful:", response);
+  
+      Cookies.remove("sessionid");
+  
+      // Navigate to the login page after successful logout
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   useEffect(() => {
@@ -97,7 +126,7 @@ const TasksPage = () => {
             <div className="user-avatar">AB</div>
             <button
               className="logout-btn"
-              onClick={() => handleCardClick("/login")}
+              onClick={handleLogout}
             >
               Log Out
             </button>
