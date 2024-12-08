@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Tasks.css";
+import hamburgerIconBlack from "../navigation_page/assets/bars-3-black.svg";
+import logoIconBlack from "../navigation_page/assets/logo-black.svg";
 import logoIcon from "../navigation_page/assets/logo.svg";
 
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
-  const [progress, setProgress] = useState(33); // Progress is 33% by default
+  const [progress, setProgress] = useState(33); 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/api/tasks/");
         setTasks(response.data);
-        // Optionally calculate progress based on tasks
-        const progressPercentage = (response.data.length / 4) * 100; // Assuming 4 tasks is 100%
+      
+        const progressPercentage = (response.data.length / 4) * 100; 
         setProgress(Math.min(progressPercentage, 100));
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -25,15 +32,23 @@ const TasksPage = () => {
 
   return (
     <div className="app-container">
-      {/* Header Section */}
-      <header className="header">
-        <img src={logoIcon} alt="Logo" className="logo" />
-        <h1>
+    <div className="tasks-container">
+  
+      <header className="tasks-header">
+        <img src={logoIconBlack} alt="Logo" className="logo-icon" />
+        <img
+          src={hamburgerIconBlack}
+          alt="Menu"
+          className="hamburger-icon"
+          onClick={toggleMenu}
+        />
+        </header>
+        <p className="tasks-text">
           Let's start training your ability to <strong>express emotions!</strong>
-        </h1>
-        <p>Choose the task first.</p>
-
-        {/* Progress Bar */}
+               Choose the task first.
+        </p>
+      
+    
         <div className="progress-container">
           <span className="progress-text">Your progress {progress}%</span>
           <div className="progress-bar-track">
@@ -54,9 +69,27 @@ const TasksPage = () => {
             ))}
           </div>
         </div>
-      </header>
+      
 
-      {/* Task List */}
+      {menuOpen && <div className="menu-overlay" onClick={toggleMenu} />}
+        <div
+          className="slide-menu"
+          style={{
+            transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+          }}
+        >
+          <button className="close-btn" onClick={toggleMenu}>
+            ✕
+          </button>
+          <div className="menu-content">
+            <img src={logoIcon} alt="Logo" className="menu-logo" />
+            <div className="menu-item">Profile Settings →</div>
+            <div className="menu-item">Home Page →</div>
+            <div className="user-avatar">AB</div>
+            <button className="logout-btn">Log Out</button>
+          </div>
+        </div>
+
       <div className="task-list">
         {tasks.map((task, index) => (
           <div key={task.id} className="task-card">
@@ -65,10 +98,11 @@ const TasksPage = () => {
               <span className="task-title">Emotion: {task.emotion}</span>
               <span className="task-description">{task.task_description}</span>
             </div>
-            <div className="arrow-icon">↘</div> {/* Arrow in bottom-right */}
+            <div className="arrow-icon">↘</div>
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
