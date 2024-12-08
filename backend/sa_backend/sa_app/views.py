@@ -2,11 +2,15 @@ from django.shortcuts import render
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Task, AudioRecording
-from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, AudioRecordingSerializer
+from .models import Task, UserAudio
+from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, UserAudioSerializer
 from django.contrib.auth import login, logout
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
+
 
 @api_view(['GET'])
 def get_all_tasks(request):
@@ -55,13 +59,19 @@ def landing_page(request):
         'login_url': login_url,
     }, status=200)
 
-@api_view(['POST'])
-def upload_audio(request):
-    parser_classes = (MultiPartParser, FormParser)
-    serializer = AudioRecordingSerializer(data=request.data)
+class UploadAudioView(APIView):
+    parser_classes = [MultiPartParser]
+    permission_classes = [IsAuthenticated]  # Ensure the user is logged in
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'message': 'Audio uploaded successfully!'}, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        audio_file = request.FILES.get('audio_file')
+        if not audio_file:
+            return Response({"error": "Audio file is required"}, status=400)
+
+
+        audio = UserAudio.objects.create(user=user, audio_file=audio_file)
+
+        # Serialize the response
+        serializer = UserAudioSerializer(audio)
+        return Response(serializer.data, status=201)

@@ -1,7 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 import re
-from .models import Task, User, AudioRecording
+from .models import Task, User, UserAudio
 from django.contrib.auth import authenticate
 
 
@@ -60,7 +60,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-class AudioRecordingSerializer(serializers.ModelSerializer):
+class UserAudioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AudioRecording
-        fields = ['id', 'audio_file', 'uploaded_at']
+        model = UserAudio
+        fields = ['id', 'user', 'task_id', 'audio_file', 'uploaded_at']

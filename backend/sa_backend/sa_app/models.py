@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.utils.timezone import now
 # Custom User Model (optional, use default User model if not necessary)
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -71,9 +71,17 @@ class Result(models.Model):
 
 
 
-class AudioRecording(models.Model):
-    audio_file = models.FileField(upload_to="audio_recordings/")
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+class UserAudio(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    task_id = models.IntegerField()
+    audio_file = models.FileField(upload_to='uploads/audio/')
+    uploaded_at = models.DateTimeField(default=now)
+
+    def save(self, *args, **kwargs):
+        if not self.task_id:
+            last_audio = UserAudio.objects.filter(user=self.user).order_by('-task_id').first()
+            self.task_id = last_audio.task_id + 1 if last_audio else 1
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Audio uploaded on {self.uploaded_at}"
+        return f"User: {self.user.username}, Task ID: {self.task_id}, Uploaded: {self.uploaded_at}"
