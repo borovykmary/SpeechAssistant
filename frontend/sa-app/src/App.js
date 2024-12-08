@@ -10,6 +10,8 @@ import Statistics from "./statistics_page/Statistics";
 import Meditations from "./meditations_page/Meditations";
 import Calendar from "./calendar_page/Calendar";
 import ProtectedRoute from "./authorization/ProtectedRoute";
+import DiaphragmaticBreathingInstructions from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingInstructions";
+import DiaphragmaticBreathingTimer from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingTimer";
 
 const App = () => {
   return (
@@ -24,6 +26,9 @@ const App = () => {
         <Route path="/statistics" element={<ProtectedRoute><Statistics /> </ProtectedRoute>} />
         <Route path="/meditations" element={<ProtectedRoute><Meditations /> </ProtectedRoute>} />
         <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
+        <Route
+            path="/diaphragmatic-breathing" element={<ProtectedRoute><DiaphragmaticBreathingInstructions /></ProtectedRoute>}/>
+        <Route path="/diaphragmatic-breathing-timer/:timer" element={<ProtectedRoute><DiaphragmaticBreathingTimer /></ProtectedRoute>}/>
       </Routes>
     </Router>
   );
