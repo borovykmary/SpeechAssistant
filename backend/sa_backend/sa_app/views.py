@@ -80,3 +80,9 @@ def upload_audio(request):
 
     serializer = ResultSerializer(result)
     return Response(serializer.data, status=201)
+
+@api_view(['GET'])
+def get_all_results(request):
+    results = Result.objects.all()
+    serializer = ResultSerializer(results, many=True)
+    return Response(serializer.data)  # Return JSON response
