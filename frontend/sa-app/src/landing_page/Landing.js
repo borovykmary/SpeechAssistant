@@ -1,7 +1,7 @@
 import React from 'react';
 import './Landing.css';
-import logo from './assets/logo.png';
-import illustration from './assets/illustration.svg';
+import logoIconBlack from '../assets/logo-black.svg';
+import illustration from '../assets/illustration.svg';
 import { useNavigate } from "react-router-dom";
 
 
@@ -14,7 +14,7 @@ function Landing() {
     return (
         <div className="landing-page">
             <header className="header">
-                <img src={logo} alt="Speech Assistant Logo" className="logo-landing"/>
+                <img src={logoIconBlack} alt="Speech Assistant Logo" className="logo-landing"/>
                 <h1>Introducing</h1>
                 <h2 className="app-name">Speech Assistant</h2>
                 <p className="description">

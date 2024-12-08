@@ -1,7 +1,7 @@
 import React from "react";
 import "./Statistics.css";
-import logo from "../navigation_page/assets/logo.svg";
-import arrow from "./assets/arrow-down-right.svg";
+import logo from "../assets/logo.svg";
+import arrow from "../assets/arrow-down-right.svg";
 
 // mock data
 const taskData = [

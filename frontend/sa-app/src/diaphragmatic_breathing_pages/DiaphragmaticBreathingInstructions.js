@@ -4,7 +4,7 @@ import "./diaphragmaticBreathing.css";
 import logo from "./assets/logo.png";
 import purple from "./assets/purple.png";
 import playIcon from "./assets/play.png";
-import illustration from "../landing_page/assets/illustration.svg";
+import illustration from "../assets/illustration.svg";
 
 const DiaphragmaticBreathingInstructions = () => {
     const [timer, setTimer] = useState("3:00");

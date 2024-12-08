@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navigation.css";
-import Card from "./components/Card";
-import hamburgerIcon from "./assets/bars-3.svg";
-import logoIcon from "./assets/logo.svg";
-import cardsBg from "./assets/cardsBg.svg";
-import arrowIcon from "./assets/arrow-right-circle.svg";
+import Card from "../components/Card";
+import hamburgerIcon from "../assets/bars-3.svg";
+import logoIcon from "../assets/logo.svg";
+import cardsBg from "../assets/cardsBg.svg";
+import arrowIcon from "../assets/arrow-right-circle.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
 
