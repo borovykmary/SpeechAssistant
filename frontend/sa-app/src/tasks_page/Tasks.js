@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Tasks.css";
-import hamburgerIconBlack from "../navigation_page/assets/bars-3-black.svg";
-import logoIconBlack from "../navigation_page/assets/logo-black.svg";
-import logoIcon from "../navigation_page/assets/logo.svg";
+import hamburgerIconBlack from "../assets/bars-3-black.svg";
+import logoIconBlack from "../assets/logo-black.svg";
+import logoIcon from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 
 const TasksPage = () => {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./Meditations.css";
-import logoIcon from "../navigation_page/assets/logo.svg";
-import hamburgerIcon from "../navigation_page/assets/bars-3.svg";
+import logoIcon from "../assets/logo.svg";
+import hamburgerIcon from "../assets/bars-3.svg";
 import { useNavigate } from "react-router-dom";
-import YogaBg from "./assets/yoga-girl.svg";
-import arrowIcon from "../navigation_page/assets/arrow-right-circle.svg";
+import YogaBg from "../assets/yoga-girl.svg";
+import arrowIcon from "../assets/arrow-right-circle.svg";
 
 function Meditations() {
   const [menuOpen, setMenuOpen] = useState(false);

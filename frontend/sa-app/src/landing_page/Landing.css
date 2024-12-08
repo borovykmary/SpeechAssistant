@@ -23,6 +23,12 @@
     margin: 10px auto;
 }
 
+    .logo {
+        width: 60px;
+        height: auto;
+        margin: 10px auto;
+    }
+
     h1 {
         font-size: 20px;
         color: #444;

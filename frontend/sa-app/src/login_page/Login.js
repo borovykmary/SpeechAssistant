@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import "./Login.css";
-import logo from "../navigation_page/assets/logo.svg";
+import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 
 // Defining the validation schema using Yup
