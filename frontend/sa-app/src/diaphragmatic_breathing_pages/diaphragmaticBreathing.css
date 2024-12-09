@@ -1,0 +1,99 @@
+.app-container {
+    width: 390px;
+    height: 844px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    margin: 0 auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: Inter, sans-serif;
+    color: #333;
+    overflow: hidden;
+    padding: 0 16px;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header .logo {
+    width: 40px;
+    margin-bottom: 10px;
+}
+
+.instructions-page, .timer-page {
+    text-align: center;
+    padding: 20px;
+}
+
+.instructions-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.instructions-content ul {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.timer-select {
+    margin: 20px 0;
+}
+
+.start-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.start-button img {
+    width: 50px;
+}
+
+.background-purple {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-display {
+    font-size: 48px;
+    margin: 20px 0;
+}
+
+.controls button {
+    background: none;
+    border: none;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.controls img {
+    width: 40px;
+}
+.illustration-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.illustration {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
