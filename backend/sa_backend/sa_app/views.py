@@ -89,7 +89,8 @@ def get_all_results(request):
     results = Result.objects.all()
     serializer = ResultSerializer(results, many=True)
     return Response(serializer.data)  # Return JSON response
-
+    
+@api_view(['GET'])
 def check_login(request):
     if request.user.is_authenticated:
         return Response({'logged_in': True}, status=200)
