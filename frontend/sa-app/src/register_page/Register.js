@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import "./Register.css";
-import logo from "../navigation_page/assets/logo.svg";
+import logo from "../assets/logo.svg";
 
 // Define the validation schema using Yup
 const RegisterSchema = Yup.object().shape({
@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-card">
-        <img src={logo} alt="Speech Assistant Logo" className="logo" />
+        <img src={logo} alt="Speech Assistant Logo" className="logo-register" />
         <h2>Welcome to Speech Assistant!</h2>
 
         <Formik

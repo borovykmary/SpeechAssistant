@@ -57,3 +57,4 @@ class Result(models.Model):
     ai_response_text = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='results')
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='results')
+    date = models.DateField(auto_now_add=True)
