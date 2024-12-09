@@ -63,7 +63,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
-        fields = ['id', 'recoded_audio', 'voice_statistics', 'ai_response_text', 'user', 'task']
+        fields = ['id', 'recoded_audio', 'voice_statistics', 'ai_response_text', 'user', 'task', 'date']
 
     def validate(self, data):
         if not data.get('recoded_audio'):
