@@ -28,8 +28,11 @@ def login_user(request):
 @api_view(['POST'])
 def logout_user(request):
     logout(request)
-    return Response({'message': 'Logout successful'}, status=200)
 
+    response = Response({'message': 'Logout successful'}, status=200)
+    response.delete_cookie('sessionid')
+
+    return response
 
 @api_view(['POST'])
 def register_user(request):
@@ -80,3 +83,15 @@ def upload_audio(request):
 
     serializer = ResultSerializer(result)
     return Response(serializer.data, status=201)
+
+@api_view(['GET'])
+def get_all_results(request):
+    results = Result.objects.all()
+    serializer = ResultSerializer(results, many=True)
+    return Response(serializer.data)  # Return JSON response
+    
+@api_view(['GET'])
+def check_login(request):
+    if request.user.is_authenticated:
+        return Response({'logged_in': True}, status=200)
+    return Response({'logged_in': False}, status=401)
