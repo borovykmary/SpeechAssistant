@@ -4,7 +4,7 @@ import ConfirmationPopup from "./ConfirmationPopup";
 import WarningPopup from "./WarningPopup";
 import "./SpecificTask.css";
 import emotionDataMockup from "./emotionDataMockup";
-import logo from "../specific_task_page/assets/logo.svg";
+import logo from "../assets/logo.svg";
 
 const SpecificTask = ({ selectedEmotion = "confidence" }) => {
   const [isRecording, setIsRecording] = useState(false);
