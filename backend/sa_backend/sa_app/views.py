@@ -77,7 +77,7 @@ def upload_audio(request):
         recoded_audio=audio_file.read(),
         voice_statistics={"placeholder": "data"},  # Placeholder for voice statistics
         ai_response_text="Placeholder AI response",  # Placeholder for AI response text
-        user_id=1,
+        user_id=3,
         task=task
     )
 
