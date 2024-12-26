@@ -11,7 +11,7 @@ patch_sklearn()
 import xgboost as xgb
 
 
-MAX_DURATION = 2
+MAX_DURATION = 20
 # Sampling rate is the number of samples of audio recorded every second
 SAMPLING_RATE = 16000
 BATCH_SIZE = 2  # Batch-size for training and evaluating our model.
@@ -19,7 +19,7 @@ NUM_CLASSES = 8  # Number of classes our dataset will have (11 in our case).
 HIDDEN_DIM = 768  # Dimension of our model output (768 in case of Wav2Vec 2.0 - Base).
 MAX_SEQ_LENGTH = MAX_DURATION * SAMPLING_RATE  # Maximum length of the input audio file.
 # Wav2Vec 2.0 results in an output frequency with a stride of about 20ms.
-MAX_FRAMES = 99
+MAX_FRAMES = MAX_DURATION * 50 - 1
 MAX_EPOCHS = 5  # Maximum number of training epochs.
 RAVDESS_CLASS_LABELS = ("angry", "calm", "disgust", "fear", "happy", "neutral","sad","surprise")
 MODEL_CHECKPOINT = "facebook/wav2vec2-base" 
@@ -100,18 +100,24 @@ xgb_params = {
 model_xgb= xgb.XGBClassifier(**xgb_params)
 model_xgb.load_model('xgb.json')
 def greet(name):
-  inp =  feature_extractor(
-    name[1],
-    sampling_rate=feature_extractor.sampling_rate,
-    max_length=MAX_SEQ_LENGTH,
-    truncation=True,
-    padding=True,
-  )
-  inp = np.array([y for x,y in inp.items()])
-  pred = wav2vec2_model.predict([inp[0],inp[1]])
-  pred = model_xgb.predict(pred)
-  lab = id2label[str(pred[0])]
-  return lab
+    inp = feature_extractor(
+        name[1],
+        sampling_rate=feature_extractor.sampling_rate,
+        max_length=MAX_SEQ_LENGTH,
+        truncation=True,
+        padding=True,
+    )
+    inp = np.array([y for x, y in inp.items()])
+    pred = wav2vec2_model.predict([inp[0], inp[1]])
+    probabilities = model_xgb.predict_proba(pred)
+    
+    results = []
+    for prob in probabilities:
+        emotion_prob = {id2label[str(i)]: f"{p*100:.2f}%" for i, p in enumerate(prob)}
+        sorted_emotion_prob = dict(sorted(emotion_prob.items(), key=lambda item: item[1], reverse=True))
+        results.append(sorted_emotion_prob)
+    
+    return results[0] if results else {}
 
-iface = gr.Interface(fn=greet, inputs="audio", outputs="text")
+iface = gr.Interface(fn=greet, inputs="audio", outputs="json")
 iface.launch()
