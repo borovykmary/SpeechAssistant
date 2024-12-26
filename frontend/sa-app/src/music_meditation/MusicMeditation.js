@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./MusicMeditation.css";
 import logoIcon from "../assets/logo.svg";
 import MusicIcon from "../assets/music_bg.svg";
 import ArrowIconWhite from "../assets/arrow-small-left-white.svg";
 import { useNavigate } from "react-router-dom";
+import audio_Chimera from "../assets/audios/audio_Chimera.mp3";
+import audio_Pappa from "../assets/audios/audio_Pappa.mp3";
+import audio_Through_Valleys from "../assets/audios/audio_Through_Valleys.mp3";
 
 function MusicMeditation() {
   const [step, setStep] = useState(1); // 1: Choose music, 2: Play screen, 3: Timer screen
   const [timeLeft, setTimeLeft] = useState(180); // 3-minute timer
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false); // Confirmation popup state
   const [selectedMusic, setSelectedMusic] = useState("");
   const navigate = useNavigate();
+  const audioRef = useRef(null);
 
   const handleCardClick = (route) => {
-    navigate(route);
+    setShowConfirm(true);
   };
 
   // Timer logic
@@ -29,15 +34,46 @@ function MusicMeditation() {
     return () => clearInterval(timer);
   }, [isPlaying, timeLeft]);
 
-  // State Handlers
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
+  const handleQuit = () => {
+    setStep(1);
+    setTimeLeft(180);
+    setIsPlaying(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
+  const handleConfirmLeave = () => {
+    setShowConfirm(false);
+    navigate("/navigation");
+  };
+
+  const handleCancelLeave = () => {
+    setShowConfirm(false);
+  };
+
   const handleMusicSelection = (e) => {
     setSelectedMusic(e.target.value);
-    setStep(2); // Move to the play state
+    setStep(2);
   };
 
   const handlePlayClick = () => {
-    setStep(3); // Move to timer screen
+    setStep(3);
     setIsPlaying(true);
+  };
+  const audioFiles = {
+    Chimera: audio_Chimera,
+    Pappa: audio_Pappa,
+    "Through Valleys": audio_Through_Valleys,
   };
 
   return (
@@ -48,7 +84,7 @@ function MusicMeditation() {
             src={ArrowIconWhite}
             alt="Arrow Icon"
             className="music-arrow"
-            onClick={() => handleCardClick("/navigation")}
+            onClick={handleCardClick}
           />
           <div className="logo-stats">
             <img
@@ -70,15 +106,20 @@ function MusicMeditation() {
             <select
               className="dropdown"
               value={selectedMusic}
-              onChange={handleMusicSelection}
+              onChange={(e) => setSelectedMusic(e.target.value)}
             >
               <option value="">Melodies</option>
-              <option value="Melody1">Label1</option>
-              <option value="Melody2">Label2</option>
-              <option value="Melody3">Label3</option>
-              <option value="Melody4">Label4</option>
-              <option value="Melody5">Label5</option>
+              <option value="Chimera">Chimera</option>
+              <option value="Pappa">Pappa</option>
+              <option value="Through Valleys">Through Valleys</option>
             </select>
+            <button
+              className="next-step-button"
+              disabled={!selectedMusic}
+              onClick={() => setStep(2)}
+            >
+              →
+            </button>
           </div>
         )}
 
@@ -99,6 +140,9 @@ function MusicMeditation() {
         {/* Step 3: Timer Screen */}
         {step === 3 && (
           <div className="timer-screen">
+            {selectedMusic && (
+              <audio ref={audioRef} src={audioFiles[selectedMusic]} loop />
+            )}
             <div className="timer-circle">
               <span>{`${Math.floor(timeLeft / 60)}:${String(
                 timeLeft % 60
@@ -108,11 +152,24 @@ function MusicMeditation() {
               <button onClick={() => setIsPlaying(!isPlaying)}>
                 {isPlaying ? "Pause" : "Play"}
               </button>
-              <button onClick={() => setStep(1)}>Quit</button>
+              <button onClick={handleQuit}>Quit</button>
             </div>
           </div>
         )}
       </div>
+      {showConfirm && (
+        <div className="confirmation-popup">
+          <div className="popup-content">
+            <p>
+              Are you sure you want to leave? The progress will not be saved.
+            </p>
+            <div className="popup-actions">
+              <button onClick={handleConfirmLeave}>Yes</button>
+              <button onClick={handleCancelLeave}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
