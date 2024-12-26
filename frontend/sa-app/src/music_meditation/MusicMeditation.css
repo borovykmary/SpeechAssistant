@@ -61,12 +61,20 @@
 }
 
 .dropdown {
-  width: 80%;
-  padding: 10px;
+  width: 70%;
   font-size: 16px;
-  border: 2px solid #8684c1;
-  border-radius: 10px;
   margin-top: 10px;
+  margin-left: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .play-screen {
@@ -138,4 +146,80 @@
 .controls button:hover {
   background: #8a7cc4;
   color: white;
+}
+
+.confirmation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 300px;
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.popup-actions button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 80px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.popup-actions button:first-child {
+  background: #792121;
+  color: white;
+}
+
+.popup-actions button:last-child {
+  background: #7a84c9;
+  color: white;
+}
+.popup-actions button:hover {
+  background: #4c59af;
+}
+.next-step-button {
+  padding: 10px 20px;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.next-step-button:disabled {
+  background-color: #b1b1b1;
+  cursor: not-allowed;
+}
+
+.next-step-button:hover:not(:disabled) {
+  background-color: #e9ebee;
 }

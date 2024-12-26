@@ -108,15 +108,13 @@ function Meditations() {
             className="card-med card-med-small"
             style={{ gridRow: "3", gridColumn: "1" }}
           >
-            <div className="card-content">
+            <div
+              className="card-content"
+              onClick={() => handleCardClick("/music-meditation")}
+            >
               <div className="card-title">Music meditation</div>
 
-              <img
-                src={arrowIcon}
-                alt="Arrow"
-                className="card-arrow"
-                onClick={() => handleCardClick("/music-meditation")}
-              />
+              <img src={arrowIcon} alt="Arrow" className="card-arrow" />
             </div>
           </div>
           <div
