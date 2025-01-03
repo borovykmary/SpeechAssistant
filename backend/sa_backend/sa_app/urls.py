@@ -11,6 +11,7 @@ urlpatterns = [
     path('upload_audio/', views.upload_audio, name='upload_audio'),
     path('results/', views.get_all_results, name='get_all_results'),
     path('check_login/', views.check_login, name='check_login'),
+    path('schedule_event/', views.schedule_event, name='schedule_event'),
 
 ]
 
