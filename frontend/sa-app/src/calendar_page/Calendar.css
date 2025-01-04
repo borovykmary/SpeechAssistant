@@ -10,3 +10,259 @@
   overflow: hidden;
   position: relative;
 }
+
+.calendar-container {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+}
+
+.calendar-content {
+  justify-self: center;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-logo {
+  width: 40px;
+  height: auto;
+  margin: 0.75rem;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(30%) saturate(5410%)
+    hue-rotate(237deg) brightness(96%) contrast(90%);
+}
+
+.menu-button {
+  font-size: 1.5rem;
+  margin: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3c3393;
+}
+
+.selected-date p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.date-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.date-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3c3393;
+}
+
+.react-calendar {
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  background-color: #f5f5f5;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  font-size: 1rem;
+  background-color: none;
+  color: #333;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.react-calendar__tile:hover {
+  background-color: #3c3393;
+}
+
+.react-calendar__tile--active {
+  background: #3c3393 !important;
+  color: #ffffff !important;
+}
+
+.react-calendar__tile:focus {
+  outline: none !important;
+  background: #3c3393 !important;
+  color: #ffffff !important;
+}
+
+.react-calendar__tile--active:hover {
+  background-color: #3c3393;
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  font-weight: bold;
+  color: #3c3393;
+  margin-bottom: 0.5rem;
+}
+
+.react-calendar__navigation__label,
+.react-calendar__navigation__arrow {
+  color: #3c3393;
+}
+
+.react-calendar__navigation__label {
+  font-weight: bold;
+}
+
+.react-calendar__tile--now {
+  outline: 2px solid #3c3393 !important;
+  border-radius: 50%;
+  transform: scale(0.95);
+  background: none !important;
+}
+
+
+.react-calendar__tile--now:hover {
+    outline: 2px solid #3c3393 !important;
+  background: #f4f4f4 !important;
+  background-color: #3f3b6115 !important;
+  color: #3c3393 !important;
+}
+
+
+.event-details {
+  margin-top: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 2px solid #dedbf8;
+  
+}
+
+.event-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  color: #3c3393;
+  font-size: 1.2rem;
+  font-weight: bold;
+
+}
+
+.event-description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.popup-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.popup-content {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 350px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+  position: relative;
+  top: 0rem;
+  right: 10.5rem;
+  background: none;
+  border: 1px;
+  font-size: 1.2rem;
+  color: #3c3393;
+  cursor: pointer;
+}
+
+.popup-content h4 {
+  margin: 0;
+  color: #3c3393;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.popup-content p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.popup-form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #3c3393;
+}
+
+.popup-form textarea {
+  width: 95%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  overflow-x: none;
+  overflow-y: scroll;
+  resize: none;
+}
+
+.add-button {
+  background-color: #3c3393;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.add-button:hover {
+  background-color: #583393;
+}
+
+.calendar-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-icon {
+  width: 30px;
+  height: 30px;
+}
