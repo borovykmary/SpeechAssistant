@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
@@ -6,7 +6,6 @@ import logo from "../assets/logo.svg";
 import calendar from "../assets/calendar.svg";
 import axios from "axios";
 
-// Function to fetch CSRF token from cookies
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -14,15 +13,17 @@ function getCookie(name) {
 }
 
 const CalendarPage = () => {
-
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [eventDescription, setEventDescription] = useState(
     "Description of your event"
   );
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isMeditationChecked, setMeditationChecked] = useState(false);
-  const [events, setEvents] = useState({});
-  const [independentEvents, setIndependentEvents] = useState([]);
+  const [events, setEvents] = useState({}); // Store multiple events per day
+
+  useEffect(() => {
+    handleGetEvents();
+  }, []);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -35,9 +36,8 @@ const CalendarPage = () => {
 
   const formatDateBackend = (date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-  
     return `${year}-${month}-${day}`;
   };
 
@@ -56,7 +56,7 @@ const CalendarPage = () => {
           headers: { "X-CSRFToken": csrfToken || "" },
         }
       );
-  
+
       console.log("Event submitted successfully:", response.data);
       alert("Event successfully added!");
     } catch (error) {
@@ -71,51 +71,71 @@ const CalendarPage = () => {
       setSubmitting(false);
     }
   };
-  
-  
 
   const handleAddEvent = () => {
     const payload = {
       event_date: formatDateBackend(selectedDate),
       description: eventDescription.trim() || "No description provided.",
     };
-  
+
     console.log("Adding event with payload:", payload);
-  
+
     handleSubmit(payload, {
       setSubmitting: () => console.log("Submitting..."),
       setErrors: (errors) => console.error("Validation errors:", errors),
     });
-  
-    // Update local state and close popup
-    setEvents((prevEvents) => ({
-      ...prevEvents,
-      [selectedDate.toDateString()]: payload.description,
-    }));
+
+    setEvents((prevEvents) => {
+      const dateKey = selectedDate.toDateString();
+      const updatedEvents = { ...prevEvents };
+      if (!updatedEvents[dateKey]) {
+        updatedEvents[dateKey] = [];
+      }
+      updatedEvents[dateKey].push(payload.description);
+      return updatedEvents;
+    });
+
     setPopupVisible(false);
   };
-  
-  
-  const tileContent = ({ date, view }) => {
-    if (view === "month") {
-      const normalEvent = events[date.toDateString()];
-      const meditationEvent = independentEvents.find(
-        (event) => event.date.toDateString() === date.toDateString()
+
+  const handleGetEvents = async () => {
+    try {
+      const csrfToken = getCookie("csrftoken");
+      const response = await axios.get(
+        "http://localhost:8000/api/get_events/",
+        {
+          withCredentials: true,
+          headers: { "X-CSRFToken": csrfToken || "" },
+        }
       );
 
+      console.log("Events fetched successfully:", response.data);
+
+      // Transform events into the appropriate format for state
+      const fetchedEvents = response.data.reduce((acc, event) => {
+        const eventDate = new Date(event.event_date).toDateString();
+        if (!acc[eventDate]) {
+          acc[eventDate] = [];
+        }
+        acc[eventDate].push(event.description);
+        return acc;
+      }, {});
+
+      setEvents(fetchedEvents);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  const tileContent = ({ date, view }) => {
+    if (view === "month") {
+      const dayEvents = events[date.toDateString()];
       return (
         <>
-          {normalEvent && (
+          {dayEvents && (
             <div className="event-marker normal-event">
               <span role="img" aria-label="event">
                 📅
-              </span>
-            </div>
-          )}
-          {meditationEvent && (
-            <div className="event-marker meditation-event">
-              <span role="img" aria-label="meditation">
-                🧘
               </span>
             </div>
           )}
@@ -154,17 +174,17 @@ const CalendarPage = () => {
               <img src={calendar} alt="Add Event" className="calendar-icon" />
             </button>
           </div>
-          <p className="event-description">
-            {events[selectedDate.toDateString()] ||
-              independentEvents
-                .filter(
-                  (event) =>
-                    event.date.toDateString() === selectedDate.toDateString()
-                )
-                .map((event) => event.description)
-                .join(", ") ||
-              "No description yet."}
-          </p>
+          <div className="event-description">
+            {events[selectedDate.toDateString()]?.length > 0 ? (
+              <ul>
+                {events[selectedDate.toDateString()].map((desc, index) => (
+                  <li key={index}>{desc}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No events for this day.</p>
+            )}
+          </div>
         </div>
       </div>
 
