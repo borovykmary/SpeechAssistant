@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, parser_classes, permission_classes
-from .models import Task, User, Result
+from .models import Task, User, Result, Event
 from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, ResultSerializer, EventSerializer
 from django.contrib.auth import login, logout
 
@@ -99,9 +99,7 @@ def check_login(request):
 
 @api_view(['POST'])
 def schedule_event(request):
-    user_email = request.data.get('user')
-    user = get_object_or_404(User, email=user_email)
-
+    user = request.user
 
     request_data = request.data.copy()
     request_data['user'] = user.pk
@@ -111,3 +109,11 @@ def schedule_event(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
+
+@api_view(['GET'])
+def get_events(request):
+    user = request.user
+    events = Event.objects.filter(user=user.pk)
+    serializer = EventSerializer(events, many=True)
+    return Response(serializer.data)
