@@ -4,8 +4,17 @@ import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
 import logo from "../assets/logo.svg";
 import calendar from "../assets/calendar.svg";
+import axios from "axios";
+
+// Function to fetch CSRF token from cookies
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
 const CalendarPage = () => {
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [eventDescription, setEventDescription] = useState(
     "Description of your event"
@@ -24,46 +33,69 @@ const CalendarPage = () => {
     return date.toLocaleDateString("en-US", options);
   };
 
+  const formatDateBackend = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+  
+    return `${year}-${month}-${day}`;
+  };
+
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
   };
 
+  const handleSubmit = async (values, { setSubmitting, setErrors } = {}) => {
+    try {
+      const csrfToken = getCookie("csrftoken");
+      const response = await axios.post(
+        "http://localhost:8000/api/schedule_event/",
+        values,
+        {
+          withCredentials: true,
+          headers: { "X-CSRFToken": csrfToken || "" },
+        }
+      );
+  
+      console.log("Event submitted successfully:", response.data);
+      alert("Event successfully added!");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        console.error("Error response from backend:", error.response.data);
+        setErrors(error.response.data);
+      } else {
+        console.error("Submission error:", error);
+        alert("An error occurred while adding the event.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  
+  
+
   const handleAddEvent = () => {
+    const payload = {
+      event_date: formatDateBackend(selectedDate),
+      description: eventDescription.trim() || "No description provided.",
+    };
+  
+    console.log("Adding event with payload:", payload);
+  
+    handleSubmit(payload, {
+      setSubmitting: () => console.log("Submitting..."),
+      setErrors: (errors) => console.error("Validation errors:", errors),
+    });
+  
+    // Update local state and close popup
     setEvents((prevEvents) => ({
       ...prevEvents,
-      [selectedDate.toDateString()]:
-        eventDescription.trim() || "No description provided.",
+      [selectedDate.toDateString()]: payload.description,
     }));
-
-    if (isMeditationChecked) {
-      const meditationEvents = [
-        {
-          date: new Date(selectedDate.getTime() - 4 * 24 * 60 * 60 * 1000), // 4 days before
-          description: "Meditation suggested",
-        },
-        {
-          date: new Date(selectedDate.getTime() - 3 * 24 * 60 * 60 * 1000), // 3 days before
-          description: "Meditation suggested",
-        },
-        {
-          date: new Date(selectedDate.getTime() - 2 * 24 * 60 * 60 * 1000), // 2 days before
-          description: "Meditation suggested",
-        },
-        {
-          date: new Date(selectedDate.getTime() - 1 * 24 * 60 * 60 * 1000), // 1 days before
-          description: "Meditation suggested",
-        },
-        {
-          date: new Date(selectedDate.getTime() + 1 * 24 * 60 * 60 * 1000), // 1 day after
-          description: "Meditation suggested",
-        },
-      ];
-      setIndependentEvents((prev) => [...prev, ...meditationEvents]);
-    }
-
     setPopupVisible(false);
   };
-
+  
+  
   const tileContent = ({ date, view }) => {
     if (view === "month") {
       const normalEvent = events[date.toDateString()];
