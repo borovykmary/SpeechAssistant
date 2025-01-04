@@ -14,12 +14,12 @@ function getCookie(name) {
 
 const CalendarPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [eventDescription, setEventDescription] = useState(
-    "Description of your event"
-  );
+  const [eventDescription, setEventDescription] = useState("Description of your event");
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isMeditationChecked, setMeditationChecked] = useState(false);
-  const [events, setEvents] = useState({}); // Store multiple events per day
+  const [meditationDates, setMeditationDates] = useState([]);
+  const [eventDates, setEventDates] = useState([]);
+  const [events, setEvents] = useState({}); 
 
   useEffect(() => {
     handleGetEvents();
@@ -56,7 +56,6 @@ const CalendarPage = () => {
           headers: { "X-CSRFToken": csrfToken || "" },
         }
       );
-
       console.log("Event submitted successfully:", response.data);
       alert("Event successfully added!");
     } catch (error) {
@@ -76,27 +75,67 @@ const CalendarPage = () => {
     const payload = {
       event_date: formatDateBackend(selectedDate),
       description: eventDescription.trim() || "No description provided.",
+      suggestMeditations: isMeditationChecked,
     };
-
+  
     console.log("Adding event with payload:", payload);
-
+  
     handleSubmit(payload, {
       setSubmitting: () => console.log("Submitting..."),
       setErrors: (errors) => console.error("Validation errors:", errors),
     });
-
+  
+    // Update events state for the selected date
     setEvents((prevEvents) => {
       const dateKey = selectedDate.toDateString();
       const updatedEvents = { ...prevEvents };
       if (!updatedEvents[dateKey]) {
         updatedEvents[dateKey] = [];
       }
-      updatedEvents[dateKey].push(payload.description);
+      updatedEvents[dateKey].push(payload);
       return updatedEvents;
     });
-
-    setPopupVisible(false);
+  
+    // If meditation is suggested, add meditation dates and update the events for those days
+    if (isMeditationChecked) {
+      const meditationMarkers = [];
+      for (let i = -4; i <= 1; i++) {
+        if (i === 0) continue; // Skip the current date
+        const meditationDate = new Date(selectedDate);
+        meditationDate.setDate(selectedDate.getDate() + i); // Adjust the date
+  
+        const meditationDateKey = meditationDate.toDateString();
+  
+        // Add "Meditation suggested" event for the meditation date
+        setEvents((prevEvents) => {
+          const updatedEvents = { ...prevEvents };
+          if (!updatedEvents[meditationDateKey]) {
+            updatedEvents[meditationDateKey] = [];
+          }
+  
+          updatedEvents[meditationDateKey].push({
+            description: "Meditation suggested", // Set description for meditation days
+            suggest_meditation: true, // Mark this as a meditation event
+          });
+  
+          return updatedEvents;
+        });
+  
+        meditationMarkers.push(meditationDate.toDateString()); // Store the meditation dates
+      }
+  
+      // Update meditation dates immediately
+      setMeditationDates((prevMeditationDates) => [
+        ...prevMeditationDates,
+        ...meditationMarkers,
+      ]);
+    }
+  
+    setPopupVisible(false); // Close the popup after adding event
   };
+  
+  
+  
 
   const handleGetEvents = async () => {
     try {
@@ -108,41 +147,99 @@ const CalendarPage = () => {
           headers: { "X-CSRFToken": csrfToken || "" },
         }
       );
-
+  
       console.log("Events fetched successfully:", response.data);
-
-      // Transform events into the appropriate format for state
-      const fetchedEvents = response.data.reduce((acc, event) => {
-        const eventDate = new Date(event.event_date).toDateString();
-        if (!acc[eventDate]) {
-          acc[eventDate] = [];
+  
+      const fetchedEvents = {};
+      const meditationMarkers = [];
+      const eventMarkers = [];
+  
+      response.data.forEach((event) => {
+        const eventDate = new Date(event.event_date);
+        const dateKey = eventDate.toDateString();
+  
+        if (!fetchedEvents[dateKey]) {
+          fetchedEvents[dateKey] = [];
         }
-        acc[eventDate].push(event.description);
-        return acc;
-      }, {});
+  
+        // For normal events
+        fetchedEvents[dateKey].push({
+          description: event.description,
+          suggest_meditation: event.suggestMeditations,
+        });
+  
+        // Add meditation suggested description for meditation days
+        if (event.suggestMeditations) {
+          for (let i = -4; i <= 1; i++) {
+            if (i === 0) continue; // Skip the actual event day
+  
+            const meditationDate = new Date(eventDate);
+            meditationDate.setDate(eventDate.getDate() + i); // Adjust the date
+            
+            // Ensure this date has a meditation suggested description
+            const meditationKey = meditationDate.toDateString();
+            if (!fetchedEvents[meditationKey]) {
+              fetchedEvents[meditationKey] = [];
+            }
+  
+            fetchedEvents[meditationKey].push({
+              description: "Meditation suggested.",
+              suggest_meditation: true,
+            });
+  
+            meditationMarkers.push(meditationDate.toDateString()); // Store the meditation dates
+          }
+        }
 
+        const eventKey = eventDate.toDateString();
+        if (!fetchedEvents[eventKey]) {
+          fetchedEvents[eventKey] = [];
+        }
+
+        eventMarkers.push(eventDate.toDateString());
+
+
+      });
+  
       setEvents(fetchedEvents);
+      setEventDates(eventMarkers);
+      setMeditationDates(meditationMarkers);
+      console.log("fetchedEvents", eventMarkers);
+      console.log("meditationMarkers", meditationMarkers);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
   };
+  
 
   const tileContent = ({ date, view }) => {
     if (view === "month") {
-      const dayEvents = events[date.toDateString()];
-      return (
-        <>
-          {dayEvents && (
-            <div className="event-marker normal-event">
-              <span role="img" aria-label="event">
-                📅
-              </span>
-            </div>
-          )}
-        </>
-      );
+      const normalEvents = eventDates.includes(date.toDateString());
+      const meditationEvent = meditationDates.includes(date.toDateString()); // Check if it's a meditation day
+      
+      if (normalEvents){
+        return (
+          <div className="event-marker normal-event">
+            <span role="img" aria-label="event">
+              📅
+            </span>
+          </div>
+        );
+      }
+  
+      if (meditationEvent) {
+        return (
+          <div className="event-marker meditation-event">
+            <span role="img" aria-label="meditation">
+              🧘
+            </span>
+          </div>
+        );
+      }
     }
   };
+  
+
 
   return (
     <div className="app-container">
@@ -177,8 +274,8 @@ const CalendarPage = () => {
           <div className="event-description">
             {events[selectedDate.toDateString()]?.length > 0 ? (
               <ul>
-                {events[selectedDate.toDateString()].map((desc, index) => (
-                  <li key={index}>{desc}</li>
+                {events[selectedDate.toDateString()].map((event, index) => (
+                  <li key={index}>{event.description}</li> // Render description here
                 ))}
               </ul>
             ) : (
