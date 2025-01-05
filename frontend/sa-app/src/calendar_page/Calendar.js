@@ -96,6 +96,9 @@ const CalendarPage = () => {
       return updatedEvents;
     });
   
+    // Update eventDates state to include the new event date
+    setEventDates((prevEventDates) => [...prevEventDates, selectedDate.toDateString()]);
+  
     // If meditation is suggested, add meditation dates and update the events for those days
     if (isMeditationChecked) {
       const meditationMarkers = [];
@@ -131,8 +134,9 @@ const CalendarPage = () => {
       ]);
     }
   
-    setPopupVisible(false); // Close the popup after adding event
+    setPopupVisible(false); 
   };
+  
   
   
   
