@@ -81,4 +81,4 @@ class ResultSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['event_date', 'description', 'user']
+        fields = ['event_date', 'description', 'user', 'suggestMeditations']

@@ -37,6 +37,7 @@ class Event(models.Model):
     event_date = models.DateField()
     description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
+    suggestMeditations = models.BooleanField(default=False)
 
 # Meditations Table
 class Meditation(models.Model):
