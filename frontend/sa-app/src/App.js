@@ -12,23 +12,89 @@ import Calendar from "./calendar_page/Calendar";
 import ProtectedRoute from "./authorization/ProtectedRoute";
 import DiaphragmaticBreathingInstructions from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingInstructions";
 import DiaphragmaticBreathingTimer from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingTimer";
+import MusicMeditation from "./music_meditation/MusicMeditation";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} /> {}
-        <Route path="/navigation" element={<ProtectedRoute> <Navigation /> </ProtectedRoute>} />
+        <Route
+          path="/navigation"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <Navigation />{" "}
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/tasks" element={<ProtectedRoute> <Tasks /> </ProtectedRoute>}/>
-        <Route path="/specific-task" element={<ProtectedRoute><SpecificTask /> </ProtectedRoute>} />
-        <Route path="/statistics" element={<ProtectedRoute><Statistics /> </ProtectedRoute>} />
-        <Route path="/meditations" element={<ProtectedRoute><Meditations /> </ProtectedRoute>} />
-        <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
         <Route
-            path="/diaphragmatic-breathing" element={<ProtectedRoute><DiaphragmaticBreathingInstructions /></ProtectedRoute>}/>
-        <Route path="/diaphragmatic-breathing-timer/:timer" element={<ProtectedRoute><DiaphragmaticBreathingTimer /></ProtectedRoute>}/>
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <Tasks />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/specific-task"
+          element={
+            <ProtectedRoute>
+              <SpecificTask />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedRoute>
+              <Statistics />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/meditations"
+          element={
+            <ProtectedRoute>
+              <Meditations />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <Calendar />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/diaphragmatic-breathing"
+          element={
+            <ProtectedRoute>
+              <DiaphragmaticBreathingInstructions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/diaphragmatic-breathing-timer/:timer"
+          element={
+            <ProtectedRoute>
+              <DiaphragmaticBreathingTimer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/music-meditation"
+          element={
+            <ProtectedRoute>
+              <MusicMeditation />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
