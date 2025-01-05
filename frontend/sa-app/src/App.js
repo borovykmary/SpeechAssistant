@@ -13,12 +13,15 @@ import ProtectedRoute from "./authorization/ProtectedRoute";
 import DiaphragmaticBreathingInstructions from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingInstructions";
 import DiaphragmaticBreathingTimer from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingTimer";
 import MusicMeditation from "./music_meditation/MusicMeditation";
+import ProfilePage from "./profile_page/Profile";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} /> {}
+          <Route path="/profile-page" element={
+              <ProtectedRoute><ProfilePage /> </ProtectedRoute>} /> {}
         <Route
           path="/navigation"
           element={
@@ -95,6 +98,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
       </Routes>
     </Router>
   );
