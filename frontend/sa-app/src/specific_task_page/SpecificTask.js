@@ -16,11 +16,8 @@ const SpecificTask = () => {
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [confirmedAudio, setConfirmedAudio] = useState(null);
   const [feedback, setFeedback] = useState(null); // To hold feedback text
-  
 
   const navigate = useNavigate();
-
-
 
   useEffect(() => {
     // Fetch the task data based on taskId
@@ -39,7 +36,7 @@ const SpecificTask = () => {
   }, [taskId]);
 
   useEffect(() => {
-    if (emotion.audio_sample) {
+    if (emotion && emotion.audio_sample) {
       const byteCharacters = atob(emotion.audio_sample);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
@@ -50,8 +47,7 @@ const SpecificTask = () => {
       const url = URL.createObjectURL(blob);
       setAudioUrl(url);
     }
-  }, [emotion.audio_sample]);
-
+  }, [emotion]);
 
   const startRecording = async () => {
     try {
@@ -141,15 +137,15 @@ const SpecificTask = () => {
           </div>
 
           <div className="imitation-audio">
-          <h3>How the emotion sounds like:</h3>
-          {console.log("Emotion Audio Sample URL:", emotion.audio_sample)}
-          {audioUrl && (
-            <audio controls>
-              <source src={audioUrl} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          )}
-        </div>
+            <h3>How the emotion sounds like:</h3>
+            {console.log("Emotion Audio Sample URL:", emotion.audio_sample)}
+            {audioUrl && (
+              <audio controls>
+                <source src={audioUrl} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            )}
+          </div>
         </div>
 
         <div className="recording-section">
