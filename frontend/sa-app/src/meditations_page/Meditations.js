@@ -23,23 +23,23 @@ function Meditations() {
     try {
       // Get the CSRF token from the cookie
       const csrfToken = Cookies.get("csrftoken");
-  
+
       // Make a POST request to the logout endpoint
       const response = await axios.post(
         "http://localhost:8000/api/logout/",
         {},
         {
-          withCredentials: true,  // Include credentials (cookies)
+          withCredentials: true, // Include credentials (cookies)
           headers: {
-            "X-CSRFToken": csrfToken,  // Add the CSRF token to the headers
+            "X-CSRFToken": csrfToken, // Add the CSRF token to the headers
           },
         }
       );
-  
+
       console.log("Logout successful:", response);
-  
+
       Cookies.remove("sessionid");
-  
+
       // Navigate to the login page after successful logout
       navigate("/login");
     } catch (error) {
@@ -77,10 +77,7 @@ function Meditations() {
               Home Page →
             </div>
             <div className="user-avatar">AB</div>
-            <button
-              className="logout-btn"
-              onClick={handleLogout}
-            >
+            <button className="logout-btn" onClick={handleLogout}>
               Log Out
             </button>
           </div>
@@ -111,7 +108,10 @@ function Meditations() {
             className="card-med card-med-small"
             style={{ gridRow: "3", gridColumn: "1" }}
           >
-            <div className="card-content">
+            <div
+              className="card-content"
+              onClick={() => handleCardClick("/music-meditation")}
+            >
               <div className="card-title">Music meditation</div>
 
               <img src={arrowIcon} alt="Arrow" className="card-arrow" />
