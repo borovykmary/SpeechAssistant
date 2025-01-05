@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('tasks/', views.get_all_tasks, name='get_all_tasks'),
+    path('tasks/<int:task_id>/', views.get_task_by_id, name='get_task_by_id'),
     path('login/', views.login_user, name='login_user'),
     path('logout/', views.logout_user, name='logout_user'),
     path('register/', views.register_user, name='register_user'),

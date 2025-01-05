@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ConfirmationPopup from "./ConfirmationPopup";
 import WarningPopup from "./WarningPopup";
 import "./SpecificTask.css";
-import emotionDataMockup from "./emotionDataMockup";
 import logo from "../assets/logo.svg";
 
-const SpecificTask = ({ selectedEmotion = "confidence" }) => {
+const SpecificTask = () => {
+  const { taskId } = useParams();
   const [isRecording, setIsRecording] = useState(false);
+  const [emotion, setEmotion] = useState(null); // To hold fetched emotion data
   const [audioBlob, setAudioBlob] = useState(null);
-  const [audioUrl, setAudioUrl] = useState("");
+  const [audioUrl, setAudioUrl] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
@@ -17,7 +18,36 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
   const [feedback, setFeedback] = useState(null); // To hold feedback text
 
   const navigate = useNavigate();
-  const emotion = emotionDataMockup[selectedEmotion] || emotionDataMockup["confidence"];
+
+  useEffect(() => {
+    // Fetch the task data based on taskId
+    const fetchTaskData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/tasks/${taskId}/`);
+        const data = await response.json();
+        setEmotion(data);
+        console.log("Task data fetched:", data);
+      } catch (error) {
+        console.error("Error fetching task data:", error);
+      }
+    };
+
+    fetchTaskData();
+  }, [taskId]);
+
+  useEffect(() => {
+    if (emotion && emotion.audio_sample) {
+      const byteCharacters = atob(emotion.audio_sample);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+    }
+  }, [emotion]);
 
   const startRecording = async () => {
     try {
@@ -31,7 +61,7 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
       };
 
       recorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/ogg" });
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudioBlob(audioBlob);
         setAudioUrl(audioUrl);
@@ -62,31 +92,6 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
     setShowConfirmationPopup(false);
     setConfirmedAudio(audioUrl);
     setFeedback("Great job! You pronounced the text clearly, but there were slight variations in the emotional tone. Keep practicing to align more closely with the intended emotion.");
-
-  
-    /*
-    try {
-      // Prepare FormData to send the audio
-      const formData = new FormData();
-      formData.append("audio", audioBlob, "recordedAudio.ogg"); // Attach the audio blob
-
-      // Send the audio file to the backend API using a POST request
-      const response = await fetch("/api/uploadAudio", {
-        method: "POST",
-        body: formData,  // Sending FormData with audio
-      });
-
-      if (response.ok) {
-        console.log("Audio successfully sent to the backend.");
-        // You can handle the response here, such as saving metadata or showing a success message
-      } else {
-        throw new Error("Audio upload failed.");
-      }
-    } catch (error) {
-      console.error("Error sending audio:", error);
-      setFeedback("There was an issue sending the audio. Please try again.");
-    }
-    */
   };
 
   const handleBackButtonClick = () => {
@@ -101,6 +106,10 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
     setShowWarningPopup(false);
     navigate("/tasks");
   };
+
+  if (!emotion) {
+    return <div>Loading...</div>; // Show a loading state while fetching data
+  }
 
   return (
     <div className="app-container">
@@ -117,22 +126,25 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
           </div>
 
           <div className="title-container">
-            <h2>{emotion.title}</h2>
+            <h2>{emotion.task_description}</h2>
           </div>
         </div>
 
         <div className="content-section">
           <div className="text-section">
             <h3>Text to reproduce:</h3>
-            <p>{emotion.text}</p>
+            <p>{emotion.text_sample}</p>
           </div>
 
           <div className="imitation-audio">
             <h3>How the emotion sounds like:</h3>
-            <audio controls>
-              <source src={emotion.audioSample} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
+            {console.log("Emotion Audio Sample URL:", emotion.audio_sample)}
+            {audioUrl && (
+              <audio controls>
+                <source src={audioUrl} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            )}
           </div>
         </div>
 
@@ -163,11 +175,12 @@ const SpecificTask = ({ selectedEmotion = "confidence" }) => {
         {/* Audio Playback and Feedback Section */}
         {confirmedAudio && (
           <>
+            {console.log("Confirmed Audio URL:", confirmedAudio)}
             <div className="audio-playback">
               <h4>Your audio:</h4>
               <div className="audio-container">
                 <audio controls>
-                  <source src={confirmedAudio} type="audio/webm" />
+                  <source src={confirmedAudio} type="audio/wav" />
                   Your browser does not support the audio element.
                 </audio>
               </div>

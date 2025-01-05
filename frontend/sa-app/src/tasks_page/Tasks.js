@@ -140,7 +140,12 @@ const TasksPage = () => {
               <span className="task-title">Emotion: {task.emotion}</span>
               <span className="task-description">{task.task_description}</span>
             </div>
-            <div className="arrow-icon">↘</div>
+            <div
+                className="arrow-icon"
+                onClick={() => handleCardClick(`/specific-task/${task.id}`)}
+              >
+                ↘
+              </div>
           </div>
         ))}
       </div>
