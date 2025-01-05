@@ -40,7 +40,7 @@ const App = () => {
           }
         />
         <Route
-          path="/specific-task"
+          path="/specific-task/:taskId"
           element={
             <ProtectedRoute>
               <SpecificTask />{" "}
