@@ -14,6 +14,12 @@ def get_all_tasks(request):
     serializer = TaskSerializer(tasks, many=True)  # Serialize data
     return Response(serializer.data)  # Return JSON response
 
+@api_view(['GET'])
+def get_task_by_id(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    serializer = TaskSerializer(task)
+    return Response(serializer.data)
+
 
 @api_view(['POST'])
 def login_user(request):
