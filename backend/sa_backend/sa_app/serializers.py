@@ -1,7 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 import re
-from .models import Task, User, Result
+from .models import Task, User, Result, Event
 from django.contrib.auth import authenticate
 
 
@@ -76,3 +76,9 @@ class ResultSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Result.objects.create(**validated_data)
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['event_date', 'description', 'user']

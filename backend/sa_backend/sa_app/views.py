@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from .models import Task, User, Result
-from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, ResultSerializer
+from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, ResultSerializer, EventSerializer
 from django.contrib.auth import login, logout
 
 
@@ -95,3 +95,19 @@ def check_login(request):
     if request.user.is_authenticated:
         return Response({'logged_in': True}, status=200)
     return Response({'logged_in': False}, status=401)
+
+
+@api_view(['POST'])
+def schedule_event(request):
+    user_email = request.data.get('user')
+    user = get_object_or_404(User, email=user_email)
+
+
+    request_data = request.data.copy()
+    request_data['user'] = user.pk
+
+    serializer = EventSerializer(data=request_data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
