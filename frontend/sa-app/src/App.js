@@ -15,12 +15,15 @@ import DiaphragmaticBreathingTimer from "./diaphragmatic_breathing_pages/Diaphra
 import MusicMeditation from "./music_meditation/MusicMeditation";
 import Instructions from "./478_meditations/Instructions";
 import Timer from "./478_meditations/Timer";
+import ProfilePage from "./profile_page/Profile";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} /> {}
+          <Route path="/profile-page" element={
+              <ProtectedRoute><ProfilePage /> </ProtectedRoute>} /> {}
         <Route
           path="/navigation"
           element={
