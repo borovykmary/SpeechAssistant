@@ -5,6 +5,8 @@ import "./Calendar.css";
 import logo from "../assets/logo.svg";
 import calendar from "../assets/calendar.svg";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -20,6 +22,17 @@ const CalendarPage = () => {
   const [meditationDates, setMeditationDates] = useState([]);
   const [eventDates, setEventDates] = useState([]);
   const [events, setEvents] = useState({}); 
+
+  const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
+  
+    const toggleMenu = () => {
+      setMenuOpen((prev) => !prev);
+    };
+
+    const handleCardClick = (route) => {
+      navigate(route);
+    };
 
   useEffect(() => {
     handleGetEvents();
@@ -85,7 +98,6 @@ const CalendarPage = () => {
       setErrors: (errors) => console.error("Validation errors:", errors),
     });
   
-    // Update events state for the selected date
     setEvents((prevEvents) => {
       const dateKey = selectedDate.toDateString();
       const updatedEvents = { ...prevEvents };
@@ -96,20 +108,17 @@ const CalendarPage = () => {
       return updatedEvents;
     });
   
-    // Update eventDates state to include the new event date
     setEventDates((prevEventDates) => [...prevEventDates, selectedDate.toDateString()]);
   
-    // If meditation is suggested, add meditation dates and update the events for those days
     if (isMeditationChecked) {
       const meditationMarkers = [];
       for (let i = -4; i <= 1; i++) {
-        if (i === 0) continue; // Skip the current date
+        if (i === 0) continue;
         const meditationDate = new Date(selectedDate);
-        meditationDate.setDate(selectedDate.getDate() + i); // Adjust the date
+        meditationDate.setDate(selectedDate.getDate() + i);
   
         const meditationDateKey = meditationDate.toDateString();
   
-        // Add "Meditation suggested" event for the meditation date
         setEvents((prevEvents) => {
           const updatedEvents = { ...prevEvents };
           if (!updatedEvents[meditationDateKey]) {
@@ -117,17 +126,16 @@ const CalendarPage = () => {
           }
   
           updatedEvents[meditationDateKey].push({
-            description: "Meditation suggested", // Set description for meditation days
-            suggest_meditation: true, // Mark this as a meditation event
+            description: "Meditation suggested",
+            suggest_meditation: true,
           });
   
           return updatedEvents;
         });
   
-        meditationMarkers.push(meditationDate.toDateString()); // Store the meditation dates
+        meditationMarkers.push(meditationDate.toDateString());
       }
   
-      // Update meditation dates immediately
       setMeditationDates((prevMeditationDates) => [
         ...prevMeditationDates,
         ...meditationMarkers,
@@ -166,21 +174,18 @@ const CalendarPage = () => {
           fetchedEvents[dateKey] = [];
         }
   
-        // For normal events
         fetchedEvents[dateKey].push({
           description: event.description,
           suggest_meditation: event.suggestMeditations,
         });
   
-        // Add meditation suggested description for meditation days
         if (event.suggestMeditations) {
           for (let i = -4; i <= 1; i++) {
-            if (i === 0) continue; // Skip the actual event day
+            if (i === 0) continue;
   
             const meditationDate = new Date(eventDate);
-            meditationDate.setDate(eventDate.getDate() + i); // Adjust the date
+            meditationDate.setDate(eventDate.getDate() + i);
             
-            // Ensure this date has a meditation suggested description
             const meditationKey = meditationDate.toDateString();
             if (!fetchedEvents[meditationKey]) {
               fetchedEvents[meditationKey] = [];
@@ -191,7 +196,7 @@ const CalendarPage = () => {
               suggest_meditation: true,
             });
   
-            meditationMarkers.push(meditationDate.toDateString()); // Store the meditation dates
+            meditationMarkers.push(meditationDate.toDateString());
           }
         }
 
@@ -215,6 +220,33 @@ const CalendarPage = () => {
     }
   };
   
+  const handleLogout = async () => {
+      try {
+        // Get the CSRF token from the cookie
+        const csrfToken = Cookies.get("csrftoken");
+    
+        // Make a POST request to the logout endpoint
+        const response = await axios.post(
+          "http://localhost:8000/api/logout/",
+          {},
+          {
+            withCredentials: true,  // Include credentials (cookies)
+            headers: {
+              "X-CSRFToken": csrfToken,  // Add the CSRF token to the headers
+            },
+          }
+        );
+    
+        console.log("Logout successful:", response);
+    
+        Cookies.remove("sessionid");
+    
+        // Navigate to the login page after successful logout
+        navigate("/login");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    };
 
   const tileContent = ({ date, view }) => {
     if (view === "month") {
@@ -250,7 +282,7 @@ const CalendarPage = () => {
       <div className="calendar-header">
         <img src={logo} alt="Speech Assistant Logo" className="calendar-logo" />
         <h3>Add your upcoming event!</h3>
-        <button className="menu-button">☰</button>
+        <button className="menu-button" onClick={toggleMenu}>☰</button>
       </div>
 
       <div className="calendar-content">
@@ -318,6 +350,32 @@ const CalendarPage = () => {
           </div>
         </div>
       )}
+      {menuOpen && <div className="menu-overlay" onClick={toggleMenu} />}
+              <div
+                className="slide-menu"
+                style={{
+                  transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+                }}
+              >
+                <div className="top-rectangle"></div>
+                <button className="close-btn" onClick={toggleMenu}>
+                  ✕
+                </button>
+                <div className="menu-content">
+                  <img src={logo} alt="Logo" className="menu-logo" />
+                  <div className="menu-item">Profile Settings →</div>
+                  <div className="menu-item" onClick={() => handleCardClick("/")}>
+                    Home Page →
+                  </div>
+                  <div className="user-avatar">AB</div>
+                  <button
+                    className="logout-btn"
+                    onClick={handleLogout}
+                  >
+                    Log Out
+                  </button>
+                </div>
+              </div>
     </div>
   );
 };
