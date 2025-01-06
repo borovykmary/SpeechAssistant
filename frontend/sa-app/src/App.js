@@ -13,6 +13,8 @@ import ProtectedRoute from "./authorization/ProtectedRoute";
 import DiaphragmaticBreathingInstructions from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingInstructions";
 import DiaphragmaticBreathingTimer from "./diaphragmatic_breathing_pages/DiaphragmaticBreathingTimer";
 import MusicMeditation from "./music_meditation/MusicMeditation";
+import Instructions from "./478_meditations/Instructions";
+import Timer from "./478_meditations/Timer";
 
 const App = () => {
   return (
@@ -95,6 +97,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+          <Route path="/478-meditations" element={
+              <ProtectedRoute>
+              <Instructions />
+              </ProtectedRoute>} />
+
+          <Route path="/478-meditations-timer" element={
+              <ProtectedRoute>
+              <Timer />
+              </ProtectedRoute>} />
       </Routes>
     </Router>
   );
