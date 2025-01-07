@@ -119,7 +119,6 @@ def analyze_voice(file_path):
         raise ValueError(f"Error loading audio file: {e}")
 
     try:
-        # Extract features using the feature extractor
         inputs = feature_extractor(
             audio,
             sampling_rate=SAMPLING_RATE,
@@ -128,7 +127,6 @@ def analyze_voice(file_path):
             padding=True,
             return_tensors="tf"
         )
-        # Ensure the inputs are correctly shaped
         input_values = inputs["input_values"]
         attention_mask = inputs["attention_mask"]
 
