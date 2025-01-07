@@ -71,31 +71,6 @@ def landing_page(request):
     }, status=200)
 
 
-@api_view(['POST'])
-@parser_classes([MultiPartParser, FormParser])
-def upload_audio(request):
-    task_id = request.data.get('task_id')
-    audio_file = request.FILES.get('audio_file')
-
-    if not task_id or not audio_file:
-        return Response({'error': 'Task ID and audio file are required'}, status=400)
-
-    try:
-        task = Task.objects.get(id=task_id)
-    except Task.DoesNotExist:
-        return Response({'error': 'Task not found'}, status=404)
-
-    result = Result.objects.create(
-        recoded_audio=audio_file.read(),
-        voice_statistics={"placeholder": "data"},  # Placeholder for voice statistics
-        ai_response_text="Placeholder AI response",  # Placeholder for AI response text
-        user_id=1,
-        task=task
-    )
-
-    serializer = ResultSerializer(result)
-    return Response(serializer.data, status=201)
-
 @api_view(['GET'])
 def get_all_results(request):
     results = Result.objects.all()
@@ -175,3 +150,37 @@ def analyze_audio(request):
         os.remove(wav_file_path)
     return Response({'voice_analysis': voice_analysis, 'llm_response': emotion_analysis, 'temp_file_path': wav_file_path}, status=200)
 
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def upload_audio(request):
+    task_id = request.data.get('task_id')
+    audio_file = request.FILES.get('audio_file')
+    user_id = request.data.get('user_id')
+    voice_statistics = request.data.get('voice_statistics')
+    llm_response = request.data.get('llm_response')
+
+    if not task_id or not audio_file or not user_id or not voice_statistics or not llm_response:
+        return Response({'error': 'Task ID, audio file, user ID, voice statistics, and LLM response are required'}, status=400)
+
+    try:
+        task = Task.objects.get(id=task_id)
+        user = User.objects.get(id=user_id)
+    except Task.DoesNotExist:
+        return Response({'error': 'Task not found'}, status=404)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)
+
+    try:
+        result = Result.objects.create(
+            recoded_audio=audio_file.read(),
+            voice_statistics=voice_statistics,
+            ai_response_text=llm_response,
+            user=user,
+            task=task
+        )
+
+        serializer = ResultSerializer(result)
+        return Response(serializer.data, status=201)
+    except Exception as e:
+        print(f"Error saving result: {e}")
+        return Response({'error': str(e)}, status=500)
