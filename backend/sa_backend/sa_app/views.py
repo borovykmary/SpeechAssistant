@@ -137,11 +137,9 @@ def analyze_audio(request):
     if not audio_file:
         return Response({'error': 'Audio file is required'}, status=400)
 
-    # Specify the directory for the temporary file
     temp_dir = os.path.join(os.path.dirname(__file__), 'services', 'algorithm')
     os.makedirs(temp_dir, exist_ok=True)
 
-    # Save the uploaded file to a temporary location
     temp_file_path = os.path.join(temp_dir, 'recording.webm')
     try:
         with open(temp_file_path, 'wb') as temp_file:
@@ -149,19 +147,17 @@ def analyze_audio(request):
                 temp_file.write(chunk)
         print(f"Temporary file created at: {temp_file_path}")
 
-        # Convert the webm file to wav format
         audio = AudioSegment.from_file(temp_file_path, format="webm")
         wav_file_path = os.path.join(temp_dir, 'recording.wav')
-        audio = audio.set_frame_rate(SAMPLING_RATE)  # Resample to 16000 Hz
+        audio = audio.set_frame_rate(SAMPLING_RATE) 
         audio.export(wav_file_path, format="wav")
 
-        # Call the analyze_voice function
         result = analyze_voice(wav_file_path)
         print(f"Analysis result: {result}")
     except Exception as e:
         print(f"Error processing audio file: {e}")
         return Response({'error': str(e)}, status=500)
     finally:
-        os.remove(temp_file_path)  # Clean up the temporary webm file
+        os.remove(temp_file_path) 
 
     return Response({'result': result, 'temp_file_path': wav_file_path}, status=200)
