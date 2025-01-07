@@ -9,9 +9,9 @@ from transformers import AutoFeatureExtractor
 from sklearnex import patch_sklearn, unpatch_sklearn
 patch_sklearn()
 import xgboost as xgb
+import wave
 
-
-MAX_DURATION = 2
+MAX_DURATION = 20
 # Sampling rate is the number of samples of audio recorded every second
 SAMPLING_RATE = 16000
 BATCH_SIZE = 2  # Batch-size for training and evaluating our model.
@@ -19,7 +19,7 @@ NUM_CLASSES = 8  # Number of classes our dataset will have (11 in our case).
 HIDDEN_DIM = 768  # Dimension of our model output (768 in case of Wav2Vec 2.0 - Base).
 MAX_SEQ_LENGTH = MAX_DURATION * SAMPLING_RATE  # Maximum length of the input audio file.
 # Wav2Vec 2.0 results in an output frequency with a stride of about 20ms.
-MAX_FRAMES = 99
+MAX_FRAMES = MAX_DURATION * 50 - 1
 MAX_EPOCHS = 5  # Maximum number of training epochs.
 RAVDESS_CLASS_LABELS = ("angry", "calm", "disgust", "fear", "happy", "neutral","sad","surprise")
 MODEL_CHECKPOINT = "facebook/wav2vec2-base" 
@@ -31,16 +31,18 @@ from transformers import TFWav2Vec2Model
 
 
 def mean_pool(hidden_states, feature_lengths):
-    attenion_mask = tf.sequence_mask(
-        feature_lengths, maxlen=MAX_FRAMES, dtype=tf.dtypes.int64
+    batch_size = tf.shape(hidden_states)[0]
+    max_frames = tf.shape(hidden_states)[1]
+    attention_mask = tf.sequence_mask(
+        feature_lengths, maxlen=max_frames, dtype=tf.dtypes.int64
     )
     padding_mask = tf.cast(
-        tf.reverse(tf.cumsum(tf.reverse(attenion_mask, [-1]), -1), [-1]),
+        tf.reverse(tf.cumsum(tf.reverse(attention_mask, [-1]), -1), [-1]),
         dtype=tf.dtypes.bool,
     )
     hidden_states = tf.where(
         tf.broadcast_to(
-            tf.expand_dims(~padding_mask, -1), (BATCH_SIZE, MAX_FRAMES, HIDDEN_DIM)
+            tf.expand_dims(~padding_mask, -1), (batch_size, max_frames, HIDDEN_DIM)
         ),
         0.0,
         hidden_states,
@@ -97,21 +99,49 @@ xgb_params = {
     'disable_default_eval_metric':  'true',
 }
 
-model_xgb= xgb.XGBClassifier(**xgb_params)
-model_xgb.load_model('xgb.json')
-def greet(name):
-  inp =  feature_extractor(
-    name[1],
-    sampling_rate=feature_extractor.sampling_rate,
-    max_length=MAX_SEQ_LENGTH,
-    truncation=True,
-    padding=True,
-  )
-  inp = np.array([y for x,y in inp.items()])
-  pred = wav2vec2_model.predict([inp[0],inp[1]])
-  pred = model_xgb.predict(pred)
-  lab = id2label[str(pred[0])]
-  return lab
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+XGB_MODEL_PATH = os.path.join(BASE_DIR, 'xgb.json')
 
-iface = gr.Interface(fn=greet, inputs="audio", outputs="text")
-iface.launch()
+model_xgb = xgb.XGBClassifier(**xgb_params)
+model_xgb.load_model(XGB_MODEL_PATH)
+
+def analyze_voice(file_path):
+    try:
+        with wave.open(file_path, 'rb') as wf:
+            if wf.getnchannels() == 0:
+                raise ValueError("File does not start with RIFF id")
+            
+            sr = wf.getframerate()
+            if sr != SAMPLING_RATE:
+                raise ValueError(f"Sample rate of the audio file ({sr}) does not match the expected sample rate ({SAMPLING_RATE}).")
+            audio = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16)
+    except Exception as e:
+        raise ValueError(f"Error loading audio file: {e}")
+
+    try:
+        # Extract features using the feature extractor
+        inputs = feature_extractor(
+            audio,
+            sampling_rate=SAMPLING_RATE,
+            max_length=MAX_SEQ_LENGTH,
+            truncation=True,
+            padding=True,
+            return_tensors="tf"
+        )
+        # Ensure the inputs are correctly shaped
+        input_values = inputs["input_values"]
+        attention_mask = inputs["attention_mask"]
+
+        pred = wav2vec2_model.predict([input_values, attention_mask])
+        probabilities = model_xgb.predict_proba(pred)
+    
+        results = []
+        for prob in probabilities:
+            emotion_prob = {id2label[str(i)]: f"{p*100:.2f}%" for i, p in enumerate(prob)}
+            sorted_emotion_prob = dict(sorted(emotion_prob.items(), key=lambda item: item[1], reverse=True))
+            results.append(sorted_emotion_prob)
+        
+        return results[0] if results else {}
+    except Exception as e:
+        raise ValueError(f"Error processing audio file: {e}")
+    
