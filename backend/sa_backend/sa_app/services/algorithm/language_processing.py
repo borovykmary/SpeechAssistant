@@ -13,21 +13,6 @@ def read_prompts(file_name):
     with open(file_path, 'r', encoding='utf-8') as file:
         return file.readlines()
     
-def filter_response(response_content):
-    json_start = response_content.find('{')
-    json_end = response_content.rfind('}') + 1
-    json_str = response_content[json_start:json_end]
-    
-    # Parse JSON
-    response = json.loads(json_str)
-    
-    if response == "ERROR OCCURED":
-        return "ERROR OCCURRED DURING RESPONSE GENERATION INVALID REQUEST"
-    
-    return response
-
-def parse_response(response):
-    return response
     
 def initialize_context():
     prompts = read_prompts('prompts.txt')
@@ -61,4 +46,4 @@ if __name__ == '__main__':
     user_input = "Analysis result: {'surprise': '9.00%', 'happy': '8.92%', 'disgust': '8.35%', 'neutral': '7.93%', 'sad': '7.08%', 'calm': '34.73%', 'fear': '22.67%', 'angry': '1.32%'}"
     user_input1 = 'Provide me with python code do sum two numbers'
     result = get_emotion_analysis(user_input, 'happy')
-    parse_response(result)
+    result

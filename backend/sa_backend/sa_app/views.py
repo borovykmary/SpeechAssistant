@@ -7,9 +7,11 @@ from .models import Task, User, Result, Event
 from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, ResultSerializer, EventSerializer
 from django.contrib.auth import login, logout
 from .services.algorithm.analyze_audio import analyze_voice
+from .services.algorithm.language_processing import get_emotion_analysis
 import os
 import tempfile
 from pydub import AudioSegment
+import json
 
 
 @api_view(['GET'])
@@ -133,9 +135,13 @@ def get_events(request):
 def analyze_audio(request):
     SAMPLING_RATE = 16000
     audio_file = request.FILES.get('audio_file')
+    emotion = request.POST.get('emotion')
 
     if not audio_file:
         return Response({'error': 'Audio file is required'}, status=400)
+
+    if not emotion:
+        return Response({'error': 'Emotion is required'}, status=400)
 
     temp_dir = os.path.join(os.path.dirname(__file__), 'services', 'algorithm')
     os.makedirs(temp_dir, exist_ok=True)
@@ -149,15 +155,18 @@ def analyze_audio(request):
 
         audio = AudioSegment.from_file(temp_file_path, format="webm")
         wav_file_path = os.path.join(temp_dir, 'recording.wav')
-        audio = audio.set_frame_rate(SAMPLING_RATE) 
+        audio = audio.set_frame_rate(SAMPLING_RATE)
         audio.export(wav_file_path, format="wav")
 
-        result = analyze_voice(wav_file_path)
-        print(f"Analysis result: {result}")
+        voice_analysis = analyze_voice(wav_file_path)
+        print(f"Voice analysis result: {voice_analysis}")
+        voice_analysis_str = json.dumps(voice_analysis)
+        emotion_analysis = get_emotion_analysis(voice_analysis_str, emotion)
+        print(f"Emotion analysis result: {emotion_analysis}")
     except Exception as e:
         print(f"Error processing audio file: {e}")
         return Response({'error': str(e)}, status=500)
     finally:
-        os.remove(temp_file_path) 
+        os.remove(temp_file_path)
 
-    return Response({'result': result, 'temp_file_path': wav_file_path}, status=200)
+    return Response({'voice_analysis': voice_analysis, 'llm_response': emotion_analysis, 'temp_file_path': wav_file_path}, status=200)

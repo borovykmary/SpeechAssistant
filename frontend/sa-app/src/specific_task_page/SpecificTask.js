@@ -98,6 +98,7 @@ const SpecificTask = () => {
     const sendAudioToAnalyze = async (audioBlob) => {
     const formData = new FormData();
     formData.append('audio_file', audioBlob, 'recording.wav');
+    formData.append('emotion', emotion.emotion);
   
     try {
       const response = await fetch('http://127.0.0.1:8000/api/analyze_audio/', {
