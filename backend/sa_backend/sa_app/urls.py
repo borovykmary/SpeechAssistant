@@ -14,5 +14,6 @@ urlpatterns = [
     path('check_login/', views.check_login, name='check_login'),
     path('schedule_event/', views.schedule_event, name='schedule_event'),
     path('get_events/', views.get_events, name='get_events'),
+    path('analyze_audio/', views.analyze_audio, name='analyze_audio'),
 ]
 

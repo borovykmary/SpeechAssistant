@@ -6,6 +6,10 @@ from rest_framework.decorators import api_view, parser_classes, permission_class
 from .models import Task, User, Result, Event
 from .serializers import TaskSerializer, LoginSerializer, RegisterSerializer, ResultSerializer, EventSerializer
 from django.contrib.auth import login, logout
+from .services.algorithm.analyze_audio import analyze_voice
+import os
+import tempfile
+from pydub import AudioSegment
 
 
 @api_view(['GET'])
@@ -123,3 +127,41 @@ def get_events(request):
     events = Event.objects.filter(user=user.pk)
     serializer = EventSerializer(events, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def analyze_audio(request):
+    SAMPLING_RATE = 16000
+    audio_file = request.FILES.get('audio_file')
+
+    if not audio_file:
+        return Response({'error': 'Audio file is required'}, status=400)
+
+    # Specify the directory for the temporary file
+    temp_dir = os.path.join(os.path.dirname(__file__), 'services', 'algorithm')
+    os.makedirs(temp_dir, exist_ok=True)
+
+    # Save the uploaded file to a temporary location
+    temp_file_path = os.path.join(temp_dir, 'recording.webm')
+    try:
+        with open(temp_file_path, 'wb') as temp_file:
+            for chunk in audio_file.chunks():
+                temp_file.write(chunk)
+        print(f"Temporary file created at: {temp_file_path}")
+
+        # Convert the webm file to wav format
+        audio = AudioSegment.from_file(temp_file_path, format="webm")
+        wav_file_path = os.path.join(temp_dir, 'recording.wav')
+        audio = audio.set_frame_rate(SAMPLING_RATE)  # Resample to 16000 Hz
+        audio.export(wav_file_path, format="wav")
+
+        # Call the analyze_voice function
+        result = analyze_voice(wav_file_path)
+        print(f"Analysis result: {result}")
+    except Exception as e:
+        print(f"Error processing audio file: {e}")
+        return Response({'error': str(e)}, status=500)
+    finally:
+        os.remove(temp_file_path)  # Clean up the temporary webm file
+
+    return Response({'result': result, 'temp_file_path': wav_file_path}, status=200)

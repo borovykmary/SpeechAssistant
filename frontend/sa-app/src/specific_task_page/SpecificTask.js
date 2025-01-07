@@ -52,23 +52,23 @@ const SpecificTask = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
+      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       setMediaRecorder(recorder);
-
+  
       const audioChunks = [];
       recorder.ondataavailable = (event) => {
         audioChunks.push(event.data);
       };
-
+  
       recorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+        const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudioBlob(audioBlob);
         setAudioUrl(audioUrl);
-
+  
         setShowConfirmationPopup(true);
       };
-
+  
       recorder.start();
       setIsRecording(true);
     } catch (error) {
@@ -92,6 +92,28 @@ const SpecificTask = () => {
     setShowConfirmationPopup(false);
     setConfirmedAudio(audioUrl);
     setFeedback("Great job! You pronounced the text clearly, but there were slight variations in the emotional tone. Keep practicing to align more closely with the intended emotion.");
+    sendAudioToAnalyze(audioBlob);
+  };
+
+    const sendAudioToAnalyze = async (audioBlob) => {
+    const formData = new FormData();
+    formData.append('audio_file', audioBlob, 'recording.wav');
+  
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/analyze_audio/', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.statusText}`);
+      }
+  
+      const result = await response.json();
+      console.log("Analysis result:", result);
+    } catch (error) {
+      console.error("Error analyzing audio:", error);
+    }
   };
 
   const handleBackButtonClick = () => {
