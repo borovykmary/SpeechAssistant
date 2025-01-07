@@ -172,5 +172,6 @@ def analyze_audio(request):
         return Response({'error': str(e)}, status=500)
     finally:
         os.remove(temp_file_path)
+        os.remove(wav_file_path)
     return Response({'voice_analysis': voice_analysis, 'llm_response': emotion_analysis, 'temp_file_path': wav_file_path}, status=200)
 

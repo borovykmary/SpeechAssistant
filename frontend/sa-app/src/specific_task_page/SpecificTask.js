@@ -91,7 +91,6 @@ const SpecificTask = () => {
   const handleConfirmAudio = () => {
     setShowConfirmationPopup(false);
     setConfirmedAudio(audioUrl);
-    setFeedback("Great job! You pronounced the text clearly, but there were slight variations in the emotional tone. Keep practicing to align more closely with the intended emotion.");
     sendAudioToAnalyze(audioBlob);
   };
 
@@ -112,6 +111,7 @@ const SpecificTask = () => {
   
       const result = await response.json();
       console.log("Analysis result:", result);
+      setFeedback(result.llm_response);
     } catch (error) {
       console.error("Error analyzing audio:", error);
     }
