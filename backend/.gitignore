@@ -3,3 +3,4 @@
 sa_venv/
 backend/sa_backend/sa_backend/__pycache__/
 backend/sa_backend/sa_app/__pycache__/
+.env
