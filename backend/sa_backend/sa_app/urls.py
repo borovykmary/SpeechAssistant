@@ -15,5 +15,6 @@ urlpatterns = [
     path('schedule_event/', views.schedule_event, name='schedule_event'),
     path('get_events/', views.get_events, name='get_events'),
     path('analyze_audio/', views.analyze_audio, name='analyze_audio'),
+    path('get_user_id/<str:email>/', views.get_user_id, name='get_user_id'),
 ]
 

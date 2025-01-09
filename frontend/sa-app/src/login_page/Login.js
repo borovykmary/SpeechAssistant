@@ -5,6 +5,7 @@ import axios from "axios";
 import "./Login.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 // Defining the validation schema using Yup
 const LoginSchema = Yup.object().shape({
@@ -43,8 +44,18 @@ const Login = () => {
         }
       );
 
+      if (response.status === 200) {
+        // Fetch user_id based on email
+        const userIdResponse = await axios.get(`http://localhost:8000/api/get_user_id/${values.email}/`);
+        if (userIdResponse.status === 200) {
+          const userId = userIdResponse.data.user_id;
+          // Store user_id in cookies
+          Cookies.set('user_id', userId, { expires: 7 }); // Expires in 7 days
+        }
+
       alert("Login successful!");
       navigate("/navigation"); // Redirect to navigation page after successful login
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors({ email: "Incorrect email or password" });

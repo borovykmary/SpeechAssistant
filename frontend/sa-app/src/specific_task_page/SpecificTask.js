@@ -4,6 +4,7 @@ import ConfirmationPopup from "./ConfirmationPopup";
 import WarningPopup from "./WarningPopup";
 import "./SpecificTask.css";
 import logo from "../assets/logo.svg";
+import Cookies from 'js-cookie';
 
 const SpecificTask = () => {
   const { taskId } = useParams();
@@ -118,7 +119,8 @@ const SpecificTask = () => {
       const uploadFormData = new FormData();
       uploadFormData.append('task_id', taskId);
       uploadFormData.append('audio_file', audioBlob, 'recording.wav');
-      uploadFormData.append('user_id', 1); // Replace with actual user ID
+      const userId = Cookies.get('user_id');
+      uploadFormData.append('user_id', userId);
       uploadFormData.append('voice_statistics', JSON.stringify(analysisResult.voice_analysis)); 
       uploadFormData.append('llm_response', analysisResult.llm_response); 
 

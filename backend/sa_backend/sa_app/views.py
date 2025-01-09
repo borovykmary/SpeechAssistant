@@ -12,6 +12,7 @@ import os
 import tempfile
 from pydub import AudioSegment
 import json
+from django.http import JsonResponse
 
 
 @api_view(['GET'])
@@ -76,6 +77,16 @@ def get_all_results(request):
     results = Result.objects.all()
     serializer = ResultSerializer(results, many=True)
     return Response(serializer.data)  # Return JSON response
+
+
+@api_view(['GET'])
+def get_user_id(request, email):
+    try:
+        user = User.objects.get(email=email)
+        return JsonResponse({'user_id': user.id}, status=200)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    
     
 @api_view(['GET'])
 def check_login(request):
