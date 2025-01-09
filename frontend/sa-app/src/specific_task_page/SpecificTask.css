@@ -211,3 +211,26 @@ body {
   color: #333;
   margin-bottom: 8px;
 }
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-icon {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.blurred {
+  filter: blur(5px);
+  pointer-events: none;
+}

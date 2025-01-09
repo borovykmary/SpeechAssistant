@@ -5,6 +5,8 @@ import WarningPopup from "./WarningPopup";
 import "./SpecificTask.css";
 import logo from "../assets/logo.svg";
 import Cookies from 'js-cookie';
+import { mirage } from 'ldrs'
+
 
 const SpecificTask = () => {
   const { taskId } = useParams();
@@ -18,8 +20,10 @@ const SpecificTask = () => {
   const [confirmedAudio, setConfirmedAudio] = useState(null);
   const [feedback, setFeedback] = useState(null); // To hold feedback text
   const [responseReceived, setResponseReceived] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  mirage.register('mirage-spinner')
 
   useEffect(() => {
     // Fetch the task data based on taskId
@@ -102,7 +106,7 @@ const SpecificTask = () => {
     formData.append('emotion', emotion.emotion);
 
     try {
-      // Send audio for analysis
+      setIsLoading(true);
       const analysisResponse = await fetch('http://127.0.0.1:8000/api/analyze_audio/', {
         method: 'POST',
         body: formData,
@@ -140,6 +144,8 @@ const SpecificTask = () => {
       setResponseReceived(true);
     } catch (error) {
       console.error("Error analyzing or uploading audio:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -172,7 +178,12 @@ const SpecificTask = () => {
 
   return (
     <div className="app-container">
-      <div className="specific-task">
+      {isLoading && (
+        <div className="loading-overlay">
+          <mirage-spinner color='#464694' size='116' speed="4.0"></mirage-spinner>
+        </div>
+      )}
+      <div className={`specific-task ${isLoading ? 'blurred' : ''}`}>
         <div className="task-header">
           <div className="back-button-container">
             <button className="back-button" onClick={handleBackButtonClick}>

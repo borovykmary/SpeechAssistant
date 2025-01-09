@@ -148,11 +148,6 @@ def analyze_audio(request):
         voice_analysis_str = json.dumps(voice_analysis)
         emotion_analysis = get_emotion_analysis(voice_analysis_str, emotion)
         print(f"Emotion analysis result: {emotion_analysis}")
-        audio = audio.set_frame_rate(SAMPLING_RATE) 
-        audio.export(wav_file_path, format="wav")
-
-        result = analyze_voice(wav_file_path)
-        print(f"Analysis result: {result}")
     except Exception as e:
         print(f"Error processing audio file: {e}")
         return Response({'error': str(e)}, status=500)

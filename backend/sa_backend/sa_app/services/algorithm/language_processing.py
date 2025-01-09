@@ -37,8 +37,7 @@ def get_emotion_analysis(user_input, emotion):
     response_content = completion.choices[0].message.content
     context.append({"role": "assistant", "content": response_content})
     print("conversation_context updated")
-    
-    print(response_content)
+
     return response_content
     
 
