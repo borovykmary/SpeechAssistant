@@ -32,6 +32,18 @@ body {
   cursor: pointer;
 
 }
+.try-again-button {
+  background-color: #2e2e7f;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 2px;
+  font-family: "Inter", sans-serif; 
+}
 
 /* Header Container */
 .header-container {

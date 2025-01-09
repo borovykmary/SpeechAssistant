@@ -17,6 +17,7 @@ const SpecificTask = () => {
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [confirmedAudio, setConfirmedAudio] = useState(null);
   const [feedback, setFeedback] = useState(null); // To hold feedback text
+  const [responseReceived, setResponseReceived] = useState(false);
 
   const navigate = useNavigate();
 
@@ -136,11 +137,19 @@ const SpecificTask = () => {
 
       const uploadResult = await uploadResponse.json();
       console.log("Upload result:", uploadResult);
+      setResponseReceived(true);
     } catch (error) {
       console.error("Error analyzing or uploading audio:", error);
     }
   };
   
+  const handleTryAgain = () => {
+    setAudioBlob(null);
+    setAudioUrl(null);
+    setFeedback(null);
+    setResponseReceived(false);
+    setConfirmedAudio(null);
+  };
 
   const handleBackButtonClick = () => {
     setShowWarningPopup(true);
@@ -242,6 +251,11 @@ const SpecificTask = () => {
             </div>
           </>
         )}
+        {responseReceived && (
+            <button className="try-again-button" onClick={handleTryAgain}>
+              Try Again!
+            </button>
+          )}
       </div>
     </div>
   );
