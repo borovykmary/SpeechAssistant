@@ -91,31 +91,54 @@ const SpecificTask = () => {
   const handleConfirmAudio = () => {
     setShowConfirmationPopup(false);
     setConfirmedAudio(audioUrl);
-    sendAudioToAnalyze(audioBlob);
+    analyzeAndUploadAudio(audioBlob);
   };
 
-    const sendAudioToAnalyze = async (audioBlob) => {
+  const analyzeAndUploadAudio = async (audioBlob) => {
     const formData = new FormData();
     formData.append('audio_file', audioBlob, 'recording.wav');
     formData.append('emotion', emotion.emotion);
-  
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/analyze_audio/', {
+      // Send audio for analysis
+      const analysisResponse = await fetch('http://127.0.0.1:8000/api/analyze_audio/', {
         method: 'POST',
         body: formData,
       });
-  
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.statusText}`);
+
+      if (!analysisResponse.ok) {
+        throw new Error(`Server error: ${analysisResponse.statusText}`);
       }
-  
-      const result = await response.json();
-      console.log("Analysis result:", result);
-      setFeedback(result.llm_response);
+
+      const analysisResult = await analysisResponse.json();
+      console.log("Analysis result:", analysisResult);
+      setFeedback(analysisResult.llm_response);
+
+      // Prepare data for upload
+      const uploadFormData = new FormData();
+      uploadFormData.append('task_id', taskId);
+      uploadFormData.append('audio_file', audioBlob, 'recording.wav');
+      uploadFormData.append('user_id', 1); // Replace with actual user ID
+      uploadFormData.append('voice_statistics', JSON.stringify(analysisResult.voice_analysis)); 
+      uploadFormData.append('llm_response', analysisResult.llm_response); 
+
+      // Upload data
+      const uploadResponse = await fetch('http://127.0.0.1:8000/api/upload_audio/', {
+        method: 'POST',
+        body: uploadFormData,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error(`Server error: ${uploadResponse.statusText}`);
+      }
+
+      const uploadResult = await uploadResponse.json();
+      console.log("Upload result:", uploadResult);
     } catch (error) {
-      console.error("Error analyzing audio:", error);
+      console.error("Error analyzing or uploading audio:", error);
     }
   };
+  
 
   const handleBackButtonClick = () => {
     setShowWarningPopup(true);
@@ -129,6 +152,8 @@ const SpecificTask = () => {
     setShowWarningPopup(false);
     navigate("/tasks");
   };
+
+  
 
   if (!emotion) {
     return <div>Loading...</div>; // Show a loading state while fetching data
