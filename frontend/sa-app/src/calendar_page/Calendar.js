@@ -364,7 +364,7 @@ const CalendarPage = () => {
                 <div className="menu-content">
                   <img src={logo} alt="Logo" className="menu-logo" />
                   <div className="menu-item">Profile Settings →</div>
-                  <div className="menu-item" onClick={() => handleCardClick("/")}>
+                  <div className="menu-item" onClick={() => handleCardClick("/navigation")}>
                     Home Page →
                   </div>
                   <div className="user-avatar">AB</div>
