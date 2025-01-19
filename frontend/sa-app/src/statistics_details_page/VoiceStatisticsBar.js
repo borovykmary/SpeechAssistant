@@ -2,7 +2,8 @@ import React from "react";
 import "./VoiceStatisticsBar.css";
 
 const VoiceStatisticsBar = ({ voiceStatistic }) => {
-  
+  console.log("Voice Statistics Prop:", voiceStatistic);
+
   const emotionColors = {
     fear: "#bdb2ff", 
     calm: "#9bf6ff",
@@ -14,22 +15,24 @@ const VoiceStatisticsBar = ({ voiceStatistic }) => {
     neutral: "#ffc6ff", 
   };
 
-  const parsedStatistics = Object.entries(voiceStatistic).reduce(
-    (acc, [emotion, value]) => {
-      const numericValue =
-        typeof value === "string" && value.includes("%")
-          ? parseFloat(value.replace("%", ""))
-          : typeof value === "number"
-          ? value
-          : 0;
+  const parsedStatistics = Object.entries(voiceStatistic).reduce((acc, [emotion, value]) => {
+    const numericValue =
+      typeof value === "string" && value.includes("%")
+        ? parseFloat(value.replace("%", ""))
+        : typeof value === "number"
+        ? value
+        : 0;
 
+    // Only add valid values to parsedStatistics
+    if (!isNaN(numericValue) && numericValue >= 0) {
       acc[emotion] = numericValue;
-      return acc;
-    },
-    {}
-  );
+    }
+    return acc;
+  }, {});
 
   
+
+  console.log("Parsed Statistics:", parsedStatistics);
   const totalPercentage = Object.values(parsedStatistics).reduce(
     (acc, value) => acc + value,
     0

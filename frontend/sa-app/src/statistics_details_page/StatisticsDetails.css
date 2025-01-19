@@ -129,7 +129,7 @@
   margin : 0.9rem 0.9rem;
 }
 
-.ai-stats-det-feedback r {
+.ai-stats-det-feedback p {
   margin-top: 2.5em;
   color: #3c3393;
   font-weight: 600;  
@@ -146,7 +146,7 @@
   scroll-behavior: smooth;
 }
 
-.ai-stats-det-feedback-text-container t {
+.ai-stats-det-feedback-text-container p {
   color: #3c3393;
   font-weight: 450;
   font-size: 0.95rem;
