@@ -16,6 +16,7 @@ import MusicMeditation from "./music_meditation/MusicMeditation";
 import Instructions from "./478_meditations/Instructions";
 import Timer from "./478_meditations/Timer";
 import ProfilePage from "./profile_page/Profile";
+import StaticticsDetails from "./statistics_details_page/StatisticsDetails";
 
 const App = () => {
   return (
@@ -108,6 +109,10 @@ const App = () => {
           <Route path="/478-meditations-timer" element={
               <ProtectedRoute>
               <Timer />
+              </ProtectedRoute>} />
+          <Route path="/statistics-details" element={
+              <ProtectedRoute>
+              <StaticticsDetails />
               </ProtectedRoute>} />
       </Routes>
     </Router>
