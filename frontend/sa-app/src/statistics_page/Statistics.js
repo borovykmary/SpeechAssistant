@@ -113,6 +113,27 @@ const Statistics = () => {
             emotion: "angry",
             voice_statistic: '{"happy": 10, "angry": 90}',
           },
+          {
+            id: 4,
+            task: 101,
+            date: "2025-01-15",
+            emotion: "happy",
+            voice_statistic: '{"happy": 92, "sad": 8}',
+          },
+          {
+            id: 5,
+            task: 102,
+            date: "2025-01-14",
+            emotion: "sad",
+            voice_statistic: '{"happy": 25, "sad": 75}',
+          },
+          {
+            id: 6,
+            task: 103,
+            date: "2025-01-13",
+            emotion: "angry",
+            voice_statistic: '{"happy": 10, "angry": 90}',
+          },
         ];
 
         const tasksMap = {

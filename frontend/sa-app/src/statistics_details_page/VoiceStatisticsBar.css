@@ -1,5 +1,5 @@
 .voice-statistics-container {
-  text-align: center; /* Centers inline or inline-block children */
+  text-align: center; 
   margin: 0.1rem 0.1rem;
   max-width: 100%;
 }
@@ -11,7 +11,7 @@
   border: 1px solid #3c3393;
   border-radius: 4px;
   overflow: hidden;
-  margin: 1rem auto; /* Centers horizontally */
+  margin: 1rem auto; 
 }
 
 
@@ -21,10 +21,10 @@
 
 .legend-container {
   display: flex;
-  flex-wrap: wrap; /* Wraps legend items onto new lines */
+  flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
-  max-width: 93%; /* Restricts the width of the legend to match the progress bar */
+  max-width: 93%; 
   margin: 0 auto;
 }
 
@@ -46,5 +46,5 @@
   font-size: 0.9rem;
   color: #3c3393;
   font-weight: 500;
-  word-wrap: break-word; /* Ensures text doesn't overflow */
+  word-wrap: break-word; 
 }

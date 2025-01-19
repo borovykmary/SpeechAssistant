@@ -98,21 +98,12 @@ const StaticticsDetails = () => {
             />
           </div>
         </header>
-
         <div className="stats-det-title">
           <h2>Task from {result.date || "Unknown Date"}</h2>
         </div>
         <div className="stats-det-info">
           <p>Name: {result.task?.description || "Unknown Task"}</p>
           <p>Task to work on emotion: {result.emotion || "Unknown Emotion"}</p>
-          <p>
-            Accuracy: {result.voice_statistic[result.emotion] || "Unknown"}%
-          </p>
-        </div>
-        
-
-        <div className="stats-det-bar">
-          <VoiceStatisticsBar voiceStatistic={result.voice_statistic} />
         </div>
         <div className="stats-det-audio">
           {result.audio_url ? (
@@ -122,7 +113,6 @@ const StaticticsDetails = () => {
                 <source src={result.audio_url} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
-              
             </div>
           ) : (
             <p className="no-audio-message">
@@ -130,10 +120,20 @@ const StaticticsDetails = () => {
             </p>
           )}
         </div>
+
+        <div className="stats-det-bar">
+          <p>
+            Accuracy: {result.voice_statistic[result.emotion] || "Unknown"}%
+          </p>
+          <VoiceStatisticsBar voiceStatistic={result.voice_statistic} />
+        </div>
+
         <div className="ai-stats-det-feedback">
           <r>Feedback to your attempt:</r>
           <br />
-          <t>{result.ai_response_text}</t>
+          <div className="ai-stats-det-feedback-text-container">
+            <t>{result.ai_response_text}</t>
+          </div>
         </div>
       </div>
     </div>
