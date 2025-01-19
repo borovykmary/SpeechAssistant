@@ -8,6 +8,7 @@ import hamburgerIcon from "../assets/bars-3-purple.svg";
 import Cookies from "js-cookie";
 import logoIcon from "../assets/logo.svg";
 
+
 const Statistics = () => {
   const [results, setResults] = useState([]);
   const [tasksMap, setTasksMap] = useState({});
@@ -22,7 +23,7 @@ const Statistics = () => {
 
   const handleCardClick = (resultId) => {
     navigate("/statistics-details", {
-      state: { resultId }, 
+      state: { resultId },
     });
   };
 
@@ -52,11 +53,14 @@ const Statistics = () => {
   useEffect(() => {
     const fetchResultsAndTasks = async () => {
       try {
+        
+        const userId = Cookies.get("user_id");
+        console.log("User ID:", userId);
         const resultsResponse = await axios.get(
-          "http://127.0.0.1:8000/api/results/"
+          `http://127.0.0.1:8000/api/results/user/${userId}/`,
         );
         const fetchedResults = resultsResponse.data;
-
+        console.log("Fetched results:", fetchedResults);
         const uniqueTaskIds = [
           ...new Set(fetchedResults.map((result) => result.task)),
         ];
@@ -237,10 +241,7 @@ const Statistics = () => {
           <div className="menu-content">
             <img src={logoIcon} alt="Logo" className="menu-logo" />
             <div className="menu-item">Profile Settings →</div>
-            <div
-              className="menu-item"
-              onClick={() => navigate("/navigation")}
-            >
+            <div className="menu-item" onClick={() => navigate("/navigation")}>
               Home Page →
             </div>
             <div className="user-avatar">AB</div>

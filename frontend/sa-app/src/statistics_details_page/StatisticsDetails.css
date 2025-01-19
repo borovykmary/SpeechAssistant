@@ -103,10 +103,10 @@
 }
 
 .no-audio-message {
-  color: #3c3393;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 0.7rem;
+  color: #ff0000;
+  font-size: 0.9rem;
+  font-weight: bolder;
+  margin-top: 2rem;
 }
 
 .stats-det-bar{
@@ -138,6 +138,7 @@
 }
 
 .ai-stats-det-feedback-text-container {
+  margin-top: 1.2em;
   overflow-y: auto; 
   max-height: 125px;
   overflow-y: auto; 
@@ -150,6 +151,8 @@
   color: #3c3393;
   font-weight: 450;
   font-size: 0.95rem;
+  margin: 0; 
+  padding: 0; 
 }
 
 .ai-stats-det-feedback-text-container::-webkit-scrollbar {

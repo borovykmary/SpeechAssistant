@@ -11,7 +11,7 @@ const StatisticsDetails = () => {
   const location = useLocation();
   const { resultId } = location.state || {};
   const [result, setResult] = useState(null);
-  const [task, setTask] = useState(null);  // State to store task details
+  const [task, setTask] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,30 +21,30 @@ const StatisticsDetails = () => {
     const fetchTaskById = async (resultId) => {
       try {
         const resultResponse = await axios.get(
-          `http://localhost:8000/api/results/${resultId}/`
+          `http://localhost:8000/api/results/${resultId}/`,
         );
         const resultData = resultResponse.data;
 
-        // Fetch the task using the task ID from the result
         const taskResponse = await axios.get(
           `http://localhost:8000/api/tasks/${resultData.task}/`
         );
         const taskData = taskResponse.data;
 
+        // Handle audio if available
         if (resultData.recoded_audio) {
-          const audioBlob = new Blob([resultData.recoded_audio], {
-            type: "audio/mpeg",
-          });
-
-          console.log("Audio Blob Created:", audioBlob);
-          const audioUrl = URL.createObjectURL(audioBlob);
-          console.log("Audio URL Created:", audioUrl);
-          setAudioUrl(audioUrl);
+          const byteCharacters = atob(resultData.recoded_audio);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'audio/mpeg' });
+          const audioUrl = URL.createObjectURL(blob);
+          setAudioUrl(audioUrl); // Set the audio URL for playback
         }
 
-
         setResult(resultData);
-        setTask(taskData);  
+        setTask(taskData);
         setLoading(false);
       } catch (err) {
         console.error(`Error fetching task for resultId ${resultId}:`, err);
@@ -64,19 +64,6 @@ const StatisticsDetails = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-
-
-   
-  console.log("Result Data:", result);
-  console.log("Voice Statistics:", result?.voice_statistics);
-  console.log("Task Data:", task);
-
-  const isVoiceStatLoaded = result?.voice_statistics && Object.keys(result.voice_statistics).length > 0;
-  const hasValidEmotion = task?.emotion && result?.voice_statistics[task.emotion] !== undefined;
-
-  console.log("isVoiceStatLoaded:", isVoiceStatLoaded);
-  console.log("hasValidEmotion:", hasValidEmotion);
-  
 
   return (
     <div className="app-container">
@@ -100,35 +87,54 @@ const StatisticsDetails = () => {
           <h2>Task from {result.date || "Unknown Date"}</h2>
         </div>
         <div className="stats-det-info">
-          <p>Name: {task?.task_description || "Unknown Task"}</p>  {/* Display task name */}
-          <p>Task to work on emotion: {task.emotion || "Unknown Emotion"}</p>  {/* Display emotion */}
+          <p>Name: {task?.task_description || "Unknown Task"}</p>
+          <p>Task to work on emotion: {task.emotion || "Unknown Emotion"}</p>
         </div>
 
+        {/* Audio Section */}
         <div className="stats-det-audio">
-          {result.audio_url ? (
+          {audioUrl ? (
             <div className="audio-container">
               <p className="audio-label">Your audio: </p>
               <audio controls className="audio-player">
-                <source src={result.audio_url} type="audio/mpeg" />
+                <source src={audioUrl} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
             </div>
           ) : (
             <p className="no-audio-message">
-              No audio recording available for this task.
+              NO AUDIO RECORDING AVALIABLE FOR THIS TASK.
             </p>
           )}
         </div>
 
-        {result.voice_statistics &&
-          Object.keys(result.voice_statistics).length > 0 && (
-            <div className="stats-det-bar">
-              <p>
-                Accuracy: {result.voice_statistics[task.emotion] || "Unknown"}%
-              </p>
-              <VoiceStatisticsBar voiceStatistic={result.voice_statistics} />
-            </div>
-          )}
+        {Object.keys(result.voice_statistics).length > 0 && (
+          <div className="stats-det-bar">
+            <p>
+              {(() => {
+                const parsedVoiceStatistics =
+                  typeof result.voice_statistics === "string"
+                    ? JSON.parse(result.voice_statistics)
+                    : result.voice_statistics;
+
+                if (task.emotion in parsedVoiceStatistics) {
+                  return `Accuracy: ${
+                    parsedVoiceStatistics[task.emotion] || "Unknown"
+                  }%`;
+                } else {
+                  const [mostProminentEmotion] = Object.entries(
+                    parsedVoiceStatistics
+                  ).reduce((a, b) =>
+                    parseFloat(a[1]) > parseFloat(b[1]) ? a : b
+                  );
+                  console.log("Most prominent emotion:", mostProminentEmotion);
+                  return `Most prominent emotion: ${mostProminentEmotion}`;
+                }
+              })()}
+            </p>
+            <VoiceStatisticsBar voiceStatistic={result.voice_statistics} />
+          </div>
+        )}
 
         {result.ai_response_text && (
           <div className="ai-stats-det-feedback">

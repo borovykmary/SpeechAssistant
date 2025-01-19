@@ -2,37 +2,39 @@ import React from "react";
 import "./VoiceStatisticsBar.css";
 
 const VoiceStatisticsBar = ({ voiceStatistic }) => {
-  console.log("Voice Statistics Prop:", voiceStatistic);
+  const parsedVoiceStatistic =
+    typeof voiceStatistic === "string"
+      ? JSON.parse(voiceStatistic)
+      : voiceStatistic;
 
   const emotionColors = {
-    fear: "#bdb2ff", 
+    fear: "#bdb2ff",
     calm: "#9bf6ff",
-    happy: "#fdffb6", 
-    sad: "#a0c4ff", 
-    disgust: "#caffbf", 
-    surprise: "#ffd6a5", 
-    angry: "#ffadad", 
-    neutral: "#ffc6ff", 
+    happy: "#fdffb6",
+    sad: "#a0c4ff",
+    disgust: "#caffbf",
+    surprise: "#ffd6a5",
+    angry: "#ffadad",
+    neutral: "#ffc6ff",
   };
 
-  const parsedStatistics = Object.entries(voiceStatistic).reduce((acc, [emotion, value]) => {
-    const numericValue =
-      typeof value === "string" && value.includes("%")
-        ? parseFloat(value.replace("%", ""))
-        : typeof value === "number"
-        ? value
-        : 0;
+  const parsedStatistics = Object.entries(parsedVoiceStatistic).reduce(
+    (acc, [emotion, value]) => {
+      const numericValue =
+        typeof value === "string" && value.includes("%")
+          ? parseFloat(value.replace("%", ""))
+          : typeof value === "number"
+          ? value
+          : 0;
 
-    // Only add valid values to parsedStatistics
-    if (!isNaN(numericValue) && numericValue >= 0) {
-      acc[emotion] = numericValue;
-    }
-    return acc;
-  }, {});
+      if (!isNaN(numericValue) && numericValue >= 0) {
+        acc[emotion] = numericValue;
+      }
+      return acc;
+    },
+    {}
+  );
 
-  
-
-  console.log("Parsed Statistics:", parsedStatistics);
   const totalPercentage = Object.values(parsedStatistics).reduce(
     (acc, value) => acc + value,
     0
@@ -47,7 +49,7 @@ const VoiceStatisticsBar = ({ voiceStatistic }) => {
             className="progress-segment"
             style={{
               width: `${(percentage / totalPercentage) * 100}%`,
-              backgroundColor: emotionColors[emotion] || "#000", 
+              backgroundColor: emotionColors[emotion] || "#000",
             }}
           />
         ))}
