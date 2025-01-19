@@ -42,7 +42,6 @@ const Statistics = () => {
         }
       );
 
-      console.log("Logout successful:", response);
       Cookies.remove("sessionid");
       navigate("/login");
     } catch (error) {
@@ -55,12 +54,10 @@ const Statistics = () => {
       try {
         
         const userId = Cookies.get("user_id");
-        console.log("User ID:", userId);
         const resultsResponse = await axios.get(
           `http://127.0.0.1:8000/api/results/user/${userId}/`,
         );
         const fetchedResults = resultsResponse.data;
-        console.log("Fetched results:", fetchedResults);
         const uniqueTaskIds = [
           ...new Set(fetchedResults.map((result) => result.task)),
         ];
@@ -91,73 +88,6 @@ const Statistics = () => {
 
     fetchResultsAndTasks();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchResultsAndTasks = async () => {
-  //     try {
-  //       const fetchedResults = [
-  //         {
-  //           id: 1,
-  //           task: 101,
-  //           date: "2025-01-15",
-  //           emotion: "happy",
-  //           voice_statistic: '{"happy": 92, "sad": 8}',
-  //         },
-  //         {
-  //           id: 2,
-  //           task: 102,
-  //           date: "2025-01-14",
-  //           emotion: "sad",
-  //           voice_statistic: '{"happy": 25, "sad": 75}',
-  //         },
-  //         {
-  //           id: 3,
-  //           task: 103,
-  //           date: "2025-01-13",
-  //           emotion: "angry",
-  //           voice_statistic: '{"happy": 10, "angry": 90}',
-  //         },
-  //         {
-  //           id: 4,
-  //           task: 101,
-  //           date: "2025-01-15",
-  //           emotion: "happy",
-  //           voice_statistic: '{"happy": 92, "sad": 8}',
-  //         },
-  //         {
-  //           id: 5,
-  //           task: 102,
-  //           date: "2025-01-14",
-  //           emotion: "sad",
-  //           voice_statistic: '{"happy": 25, "sad": 75}',
-  //         },
-  //         {
-  //           id: 6,
-  //           task: 103,
-  //           date: "2025-01-13",
-  //           emotion: "angry",
-  //           voice_statistic: '{"happy": 10, "angry": 90}',
-  //         },
-  //       ];
-
-  //       const tasksMap = {
-  //         101: "Complete the project presentation",
-  //         102: "Write a blog post about React",
-  //         103: "Prepare for the team meeting",
-  //       };
-
-  //       setResults(fetchedResults);
-  //       setTasksMap(tasksMap);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       console.error("Error fetching results or tasks:", err);
-  //       setError("Failed to load task history.");
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchResultsAndTasks();
-  // }, []);
 
   if (loading) {
     return <div className="statistics-container">Loading...</div>;

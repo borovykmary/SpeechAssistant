@@ -210,5 +210,4 @@ def get_result_by_id(request, result_id):
 def get_results_by_user(request, user_id):
     results = Result.objects.filter(user=user_id)
     serializer = ResultSerializer(results, many=True)
-
     return Response(serializer.data)

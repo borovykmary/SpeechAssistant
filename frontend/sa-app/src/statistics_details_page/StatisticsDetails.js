@@ -30,7 +30,7 @@ const StatisticsDetails = () => {
         );
         const taskData = taskResponse.data;
 
-        // Handle audio if available
+        
         if (resultData.recoded_audio) {
           const byteCharacters = atob(resultData.recoded_audio);
           const byteNumbers = new Array(byteCharacters.length);
@@ -40,7 +40,7 @@ const StatisticsDetails = () => {
           const byteArray = new Uint8Array(byteNumbers);
           const blob = new Blob([byteArray], { type: 'audio/mpeg' });
           const audioUrl = URL.createObjectURL(blob);
-          setAudioUrl(audioUrl); // Set the audio URL for playback
+          setAudioUrl(audioUrl); 
         }
 
         setResult(resultData);
@@ -91,7 +91,6 @@ const StatisticsDetails = () => {
           <p>Task to work on emotion: {task.emotion || "Unknown Emotion"}</p>
         </div>
 
-        {/* Audio Section */}
         <div className="stats-det-audio">
           {audioUrl ? (
             <div className="audio-container">
@@ -127,7 +126,7 @@ const StatisticsDetails = () => {
                   ).reduce((a, b) =>
                     parseFloat(a[1]) > parseFloat(b[1]) ? a : b
                   );
-                  console.log("Most prominent emotion:", mostProminentEmotion);
+                  
                   return `Most prominent emotion: ${mostProminentEmotion}`;
                 }
               })()}
