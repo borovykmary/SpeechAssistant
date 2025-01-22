@@ -21,17 +21,14 @@ function Meditations() {
 
   const handleLogout = async () => {
     try {
-      // Get the CSRF token from the cookie
       const csrfToken = Cookies.get("csrftoken");
-
-      // Make a POST request to the logout endpoint
       const response = await axios.post(
         "http://localhost:8000/api/logout/",
         {},
         {
-          withCredentials: true, // Include credentials (cookies)
+          withCredentials: true, 
           headers: {
-            "X-CSRFToken": csrfToken, // Add the CSRF token to the headers
+            "X-CSRFToken": csrfToken, 
           },
         }
       );
@@ -39,8 +36,6 @@ function Meditations() {
       console.log("Logout successful:", response);
 
       Cookies.remove("sessionid");
-
-      // Navigate to the login page after successful logout
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
@@ -98,7 +93,8 @@ function Meditations() {
             className="card-med card-med-small"
             style={{ gridRow: "1", gridColumn: "2" }}
           >
-            <div className="card-content">
+            <div className="card-content" 
+              onClick={() => handleCardClick("/478-meditations")}>
               <div className="card-title">4-7-8 technique</div>
 
               <img src={arrowIcon} alt="Arrow" className="card-arrow" />
