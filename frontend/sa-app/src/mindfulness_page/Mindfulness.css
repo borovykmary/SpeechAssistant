@@ -1,0 +1,115 @@
+/* Container and Header */
+.mindfulness-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  width: 390px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 1.5rem;
+  height: 100vh;
+  padding: 0;
+  position: relative;
+}
+
+.mindfulness-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.mindfulness-logo {
+  height: 35px;
+  margin-right: 41%;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(30%) saturate(5410%)
+    hue-rotate(237deg) brightness(96%) contrast(90%);
+}
+
+.mindfulness-arrow {
+    width: 35px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 3%;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(30%) saturate(5410%)
+    hue-rotate(237deg) brightness(96%) contrast(90%);
+}
+
+/* Content */
+.mindfulness-content {
+  position: relative;
+  text-align: center;
+  justify-items: center;
+  max-width: 400px;
+  margin-top: 10px;
+  height: 70%;
+}
+
+.mindfulness-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 16px 0;
+}
+
+.highlight {
+  color: #5d50f9;
+}
+
+.mindfulness-description {
+    width: 80%;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 20px;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  color: #555;
+}
+
+/* Audio Player */
+.mindfulness-audio-player {
+  width: 80%;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.play-button,
+.volume-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.audio-duration {
+  margin: 0 8px;
+  font-size: 14px;
+}
+
+/* Illustration */
+
+.mindfulness-illustration {
+  width: 80%;
+  height: 70%;
+  margin-top: 20px;
+  align-content: center;
+  justify-content: center;
+  background-color: #ffc74c;
+  border-style: solid;
+  border-radius: 10%;
+  border-width: 4px;
+  border-color: #fff;
+}
+
+.mindfulness-girl-illustration {
+  width: 100%;
+  margin-top: 60px;
+}
