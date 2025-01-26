@@ -21,17 +21,17 @@ const DiaphragmaticBreathingInstructions = () => {
   return (
     <div className="instructions-page">
       <div className="instructions-content">
-        <header className="header">
+        <div className="header-diap">
           <img
             src={ArrowIconWhite}
             alt="Arrow Icon"
-            className="arrow"
+            className="arrow-diap"
             onClick={handleClickOnArrow}
           />
-          <div className="logo">
-            <img src={logoIcon} alt="Speech Assistant Logo" className="logo" />
+          <div className="logo-diap">
+            <img src={logoIcon} alt="Speech Assistant Logo" className="logo-diap" />
           </div>
-        </header>
+        </div>
         <div>
           <p>
             Lie down on a flat surface with a pillow under the head and pillows
