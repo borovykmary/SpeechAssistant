@@ -33,7 +33,7 @@ emotion.
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/borovykmary/WalkExplorer
+   git clone https://github.com/borovykmary/SpeechAssistant
    ```
 
 2. **Create A virtual environment:**
