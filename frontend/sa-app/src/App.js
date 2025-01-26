@@ -17,6 +17,7 @@ import Instructions from "./478_meditations/Instructions";
 import Timer from "./478_meditations/Timer";
 import ProfilePage from "./profile_page/Profile";
 import Mindfulness from "./mindfulness_page/Mindfulness";
+import StaticticsDetails from "./statistics_details_page/StatisticsDetails";
 
 const App = () => {
   return (
@@ -118,6 +119,10 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+          <Route path="/statistics-details" element={
+              <ProtectedRoute>
+              <StaticticsDetails />
+              </ProtectedRoute>} />
       </Routes>
     </Router>
   );

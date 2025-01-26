@@ -21,6 +21,7 @@ def get_all_tasks(request):
     serializer = TaskSerializer(tasks, many=True)  # Serialize data
     return Response(serializer.data)  # Return JSON response
 
+
 @api_view(['GET'])
 def get_task_by_id(request, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -46,6 +47,7 @@ def logout_user(request):
     response.delete_cookie('sessionid')
 
     return response
+
 
 @api_view(['POST'])
 def register_user(request):
@@ -86,8 +88,8 @@ def get_user_id(request, email):
         return JsonResponse({'user_id': user.id}, status=200)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    
-    
+
+
 @api_view(['GET'])
 def check_login(request):
     if request.user.is_authenticated:
@@ -115,6 +117,7 @@ def get_events(request):
     events = Event.objects.filter(user=user.pk)
     serializer = EventSerializer(events, many=True)
     return Response(serializer.data)
+
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
@@ -154,7 +157,10 @@ def analyze_audio(request):
     finally:
         os.remove(temp_file_path)
         os.remove(wav_file_path)
-    return Response({'voice_analysis': voice_analysis, 'llm_response': emotion_analysis, 'temp_file_path': wav_file_path}, status=200)
+    return Response(
+        {'voice_analysis': voice_analysis, 'llm_response': emotion_analysis, 'temp_file_path': wav_file_path},
+        status=200)
+
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
@@ -166,7 +172,8 @@ def upload_audio(request):
     llm_response = request.data.get('llm_response')
 
     if not task_id or not audio_file or not user_id or not voice_statistics or not llm_response:
-        return Response({'error': 'Task ID, audio file, user ID, voice statistics, and LLM response are required'}, status=400)
+        return Response({'error': 'Task ID, audio file, user ID, voice statistics, and LLM response are required'},
+                        status=400)
 
     try:
         task = Task.objects.get(id=task_id)
@@ -190,3 +197,17 @@ def upload_audio(request):
     except Exception as e:
         print(f"Error saving result: {e}")
         return Response({'error': str(e)}, status=500)
+
+
+@api_view(['GET'])
+def get_result_by_id(request, result_id):
+    result = get_object_or_404(Result, id=result_id)
+    serializer = ResultSerializer(result)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_results_by_user(request, user_id):
+    results = Result.objects.filter(user=user_id)
+    serializer = ResultSerializer(results, many=True)
+    return Response(serializer.data)

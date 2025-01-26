@@ -1,0 +1,50 @@
+.voice-statistics-container {
+  text-align: center; 
+  margin: 0.1rem 0.1rem;
+  max-width: 100%;
+}
+
+.voice-statistics-bar {
+  display: flex;
+  height: 20px;
+  width: 93%;
+  border: 1px solid #3c3393;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1rem auto; 
+}
+
+
+.progress-segment {
+  height: 100%;
+}
+
+.legend-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 93%; 
+  margin: 0 auto;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #3c3393;
+}
+
+.legend-label {
+  font-size: 0.9rem;
+  color: #3c3393;
+  font-weight: 500;
+  word-wrap: break-word; 
+}
