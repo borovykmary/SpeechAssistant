@@ -121,7 +121,9 @@ function Meditations() {
             className="card-med card-med-big"
             style={{ gridRow: "2 / span 2", gridColumn: "2" }}
           >
-            <div className="card-content">
+            <div className="card-content" 
+            onClick={() => handleCardClick("/diaphragmatic-breathing")}
+            >
               <div className="card-title">Diaphragmatic breathing</div>
 
               <img src={arrowIcon} alt="Arrow" className="card-arrow" />

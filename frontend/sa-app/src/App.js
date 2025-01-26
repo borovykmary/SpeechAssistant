@@ -79,9 +79,9 @@ const App = () => {
         <Route
           path="/diaphragmatic-breathing"
           element={
-            
+            <ProtectedRoute>
               <DiaphragmaticBreathingInstructions />
-              
+              </ProtectedRoute>
           }
         />
         <Route
