@@ -81,7 +81,7 @@ const App = () => {
           element={
             <ProtectedRoute>
               <DiaphragmaticBreathingInstructions />
-            </ProtectedRoute>
+              </ProtectedRoute>
           }
         />
         <Route
@@ -89,7 +89,7 @@ const App = () => {
           element={
             <ProtectedRoute>
               <DiaphragmaticBreathingTimer />
-            </ProtectedRoute>
+              </ProtectedRoute>
           }
         />
         <Route
