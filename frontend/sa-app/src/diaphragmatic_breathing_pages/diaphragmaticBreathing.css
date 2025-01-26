@@ -12,38 +12,50 @@
     padding: 0 16px;
 }
 
-.header {
-    text-align: center;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
+.header-diap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 
-.header .logo {
-    width: 40px;
-    margin-bottom: 10px;
-}
+  }
+  
+  .logo-diap {
 
+    align-self: center;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arrow-diap {
+    width: 35px;
+    height: auto;
+    cursor: pointer; 
+  }
+  
 .instructions-page, .timer-page {
     text-align: center;
     padding: 20px;
 }
 
 .instructions-content {
+    margin-top: 5em;
     background-color: #ffffff;
-    padding: 20px;
+    padding: 25px;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
     max-width: 400px;
 }
 
-.instructions-content ul {
+.instructions-content p {
+    color: #3c3393;
     text-align: left;
     padding-left: 20px;
 }
 
 .timer-select {
+    color: #3c3393;
     margin: 20px 0;
 }
 
