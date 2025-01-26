@@ -16,7 +16,6 @@
     text-align: center;
     padding: 20px;
     background-color: #ffffff;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header .logo {
@@ -33,12 +32,11 @@
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
     max-width: 400px;
 }
 
-.instructions-content ul {
+.instructions-content p {
     text-align: left;
     padding-left: 20px;
 }
