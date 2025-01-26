@@ -101,7 +101,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-          <Route path="/478-meditations" element={
+         <Route path="/478-meditations" element={
               <ProtectedRoute>
               <Instructions />
               </ProtectedRoute>} />
@@ -110,7 +110,6 @@ const App = () => {
               <ProtectedRoute>
               <Timer />
               </ProtectedRoute>} />
-              
           <Route
           path="/mindfulness"
           element={
