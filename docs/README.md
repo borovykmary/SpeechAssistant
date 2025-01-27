@@ -67,7 +67,7 @@ emotion.
 Maryna Borovyk, Oliwia Skrobacz, Illia Pastushok, Maja Ludwińska, Nikola Różycka
 ## Demonstration
 ### Main Screenshots:
-If you want to see more screens check out our User manual located in /docs directory!
+If you want to see more screens check out our User manual located in /reports directory!
 | ![Landing Screen](landing.png) | ![Navigation Screen](navigation.png) |
 |:---------------------------------:|:------------------------------------:|
 | ![Task Screen](tasks.png) | ![Statistics Screen](statistics.png) |
